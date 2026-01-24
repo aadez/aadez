@@ -149,7 +149,6 @@
         radial-gradient(600px 400px at 10% 30%, rgba(244,210,122,.10), transparent 55%),
         radial-gradient(600px 400px at 90% 10%, rgba(159,212,255,.10), transparent 55%);
       pointer-events:none;
-      filter: blur(0px);
       opacity:.9;
     }
 
@@ -303,6 +302,54 @@
     .card h3{ margin:0; font-family: var(--serif); font-size: 16px; letter-spacing:.2px; }
     .card p{ margin: 10px 0 0; color: var(--muted); font-size: 13px; }
 
+    /* ====== TILE LOOK (match HERO boxes) ====== */
+    .tileCard{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(900px 520px at 10% 0%, rgba(159,212,255,.18), transparent 55%),
+        radial-gradient(900px 620px at 100% 15%, rgba(74,163,255,.12), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.085), rgba(255,255,255,.035));
+      box-shadow: var(--shadow);
+    }
+    .tileCard:after{ opacity:.35; }
+    .tileCard:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(620px 420px at 15% 35%, rgba(244,210,122,.10), transparent 55%),
+        radial-gradient(520px 380px at 85% 10%, rgba(159,212,255,.10), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .tileCard .cardInner{
+      position:relative;
+      z-index:1;
+      padding: 20px 20px 18px;
+      height: 100%;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* Make cards feel balanced like tiles (not long cylinders) */
+    .grid2 > .tileCard{ min-height: 300px; }
+    .grid3 > .tileCard{ min-height: 260px; }
+
+    /* Optional: keep text from making tiles too tall */
+    .tileCard p{
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 9;
+      overflow: hidden;
+    }
+
+    @media (max-width: 520px){
+      .grid2 > .tileCard,
+      .grid3 > .tileCard{ min-height: unset; }
+      .tileCard p{ -webkit-line-clamp: unset; }
+    }
+
     /* ====== About / Profile ====== */
     .profileCard{ overflow:hidden; }
     .profileMedia{
@@ -397,11 +444,13 @@
     /* ====== Gallery ====== */
     .gallery{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .gItem{
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.04);
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(700px 260px at 15% 10%, rgba(159,212,255,.14), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
       overflow:hidden;
-      box-shadow: var(--shadow2);
+      box-shadow: var(--shadow);
       cursor: zoom-in;
       transition: transform .2s ease, border-color .2s ease;
       position:relative;
@@ -419,24 +468,6 @@
       font-size: 12px;
       color: rgba(255,255,255,.88);
     }
-
-    /* ====== Event Details ====== */
-    .detailGrid{ display:grid; grid-template-columns: 1.2fr .8fr; gap: 18px; align-items:stretch; }
-    .details{ padding: 18px; }
-    .detailList{ margin: 12px 0 0; padding:0; list-style:none; }
-    .detailList li{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px dashed rgba(255,255,255,.14);
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .detailList li:last-child{ border-bottom:none; }
-    .detailList b{ color: rgba(255,255,255,.88); font-weight: 700; }
-    .miniHint{ color: var(--muted2); font-size: 12px; margin-top: 10px; }
 
     /* ====== Modal (Lightbox) ====== */
     .modal{
@@ -501,7 +532,6 @@
       .grid3{ grid-template-columns: 1fr; }
       .grid2{ grid-template-columns: 1fr; }
       .bookWrap{ grid-template-columns: 1fr; }
-      .detailGrid{ grid-template-columns: 1fr; }
       .gallery{ grid-template-columns: 1fr 1fr; }
       .links{ display:none; }
       .hamburger{ display:inline-flex; }
@@ -593,21 +623,24 @@
           </div>
         </div>
 
-<aside class="sideCard reveal">
-  <div class="sideTop">
-    <h3>It's Today 🎉</h3>
-    <p>8th February, 2026</p>
-  </div>
+        <aside class="sideCard reveal">
+          <div class="sideTop">
+            <h3>It's Today 🎉</h3>
+            <p>8th February, 2026</p>
+          </div>
 
-  <div class="countdown" aria-label="Event date">
-      <strong style="font-size:20px;">8th February, 2026</strong>
-      <span> The day the Lord has made</span>
+          <div class="countdown" aria-label="Event date">
+            <div class="timeBox" style="grid-column:1/-1;">
+              <strong style="font-size:20px;">8th February, 2026</strong>
+              <span>The day the Lord has made</span>
+            </div>
+          </div>
+
+          <div class="note">We look forward to celebrating with you.</div>
+        </aside>
+      </div>
     </div>
-  </div>
-
-  <div class="note">We look forward to celebrating with you.</div>
-</aside>
-
+  </main>
 
   <!-- ====== ABOUT ====== -->
   <section id="about">
@@ -620,7 +653,7 @@
       </div>
 
       <div class="grid2">
-        <article class="card profileCard reveal">
+        <article class="card tileCard profileCard reveal">
           <div class="profileMedia">
             <img alt="Pastor Omoniyi Oluwagbemiga Ayeni" src="data:image/webp;base64,UklGRs4dAABXRUJQVlA4IMIdAABwkgKdASq0BpwBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
             <div class="profileCaption">
@@ -649,7 +682,7 @@
           </div>
         </article>
 
-        <aside class="card reveal">
+        <aside class="card tileCard reveal">
           <div class="cardInner">
             <div class="cardHeader">
               <h3>At a Glance</h3>
@@ -680,7 +713,7 @@
       </div>
 
       <div class="grid2">
-        <article class="card reveal">
+        <article class="card tileCard reveal">
           <div class="cardInner">
             <div class="cardHeader">
               <h3>Career Timeline</h3>
@@ -701,7 +734,7 @@
           </div>
         </article>
 
-        <article class="card reveal">
+        <article class="card tileCard reveal">
           <div class="cardInner">
             <div class="cardHeader">
               <h3>Education &amp; Formation</h3>
@@ -737,7 +770,7 @@
       </div>
 
       <div class="grid3">
-        <article class="card reveal">
+        <article class="card tileCard reveal">
           <div class="cardInner">
             <div class="cardHeader">
               <h3>Early Leadership</h3>
@@ -750,7 +783,7 @@
           </div>
         </article>
 
-        <article class="card reveal">
+        <article class="card tileCard reveal">
           <div class="cardInner">
             <div class="cardHeader">
               <h3>Teaching Grace</h3>
@@ -763,7 +796,7 @@
           </div>
         </article>
 
-        <article class="card reveal">
+        <article class="card tileCard reveal">
           <div class="cardInner">
             <div class="cardHeader">
               <h3>Pastoral Assignment</h3>
@@ -790,7 +823,7 @@
       </div>
 
       <div class="bookWrap">
-        <article class="card reveal">
+        <article class="card tileCard reveal">
           <div class="cardInner">
             <div class="cardHeader">
               <span class="tag">Tap to Zoom</span>
@@ -817,7 +850,7 @@
           </div>
         </article>
 
-        <article class="card reveal">
+        <article class="card tileCard reveal">
           <div class="cardInner">
             <div class="cardHeader">
               <h3>Nuggets of Power</h3>
@@ -883,7 +916,6 @@
       </div>
     </div>
   </section>
-
 
   <!-- ====== FOOTER ====== -->
   <footer>
@@ -955,8 +987,6 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-    // ====== Event Date (static) ======
-    // Countdown removed — this section now displays the event date only.
 
     // ====== Lightbox Modal ======
     const modal = document.getElementById('modal');
