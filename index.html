@@ -1,1171 +1,994 @@
-def esc(s):
-    import html
-    return html.escape(s, quote=True)
-
-timeline_html="\n".join(
-f"""<li class="timeline__item">
-  <div class="timeline__dot" aria-hidden="true"></div>
-  <div class="timeline__content">
-    <div class="timeline__meta">
-      <span class="chip">{esc(period)}</span>
-      <span class="timeline__label">{esc(label)}</span>
-    </div>
-    <h4>{esc(title)}</h4>
-  </div>
-</li>""" for period,label,title in timeline
-)
-
-highlights_html="\n".join(
-f"""<div class="stat">
-  <div class="stat__k">{esc(k)}</div>
-  <div class="stat__v">{esc(v)}</div>
-</div>""" for k,v in highlights
-)
-
-books_gallery=[
-("1st Book","The Church Planter","A Biography of Pastor Israel Adegoke Ojobe","book1"),
-("2nd Book","Path to Peaceful Marriage","Guidance for building harmony in marriage","book2"),
-("3rd Book","Getting to the Top","The Christian Youth’s Compass","book3"),
-("4th Book","Enjoying Financial Bliss in the Lord","Faith-inspired approach to stewardship","book4"),
-]
-gallery_html="\n".join(
-f"""<figure class="gallery__item" data-modal-img="{esc(uris[key])}" data-modal-title="{esc(label)}">
-  <div class="gallery__tag">{esc(label)}</div>
-  <img src="{esc(uris[key])}" alt="{esc(title)} book cover" loading="lazy" />
-  <figcaption>
-    <div class="gallery__title">{esc(title)}</div>
-    <div class="gallery__sub">{esc(sub)}</div>
-  </figcaption>
-</figure>""" for label,title,sub,key in books_gallery
-)
-
-nuggets_html="\n".join(
-f"""<blockquote class="quote">
-  <p>“{esc(n['quote'])}”</p>
-  <footer>— {esc(n['by'])}</footer>
-</blockquote>""" for n in nuggets
-)
-
-about_html=join_paras(about_paras)
-ministry_html=join_paras(ministry_paras)
-book_about_html=join_paras(book_about)
-
-html_doc=f"""<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{esc(profile_title)} | Birthday & Book Launch</title>
-  <meta name="description" content="Birthday celebration and book launch website for {esc(profile_title)} — featuring biography, ministry journey, and the new book POWER AS OF OLD." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pastor Omoniyi Oluwagbemiga Ayeni — Birthday & Book Launch</title>
+  <meta name="description" content="An elegant blue-themed website celebrating Pastor Solomon Omoniyi Oluwagbemiga Ayeni and the launch of his new book, POWER AS OF OLD." />
   <style>
-    :root {{
-      --bg0: #050b17;
-      --bg1: #071427;
-      --bg2: #0b2750;
+    /* ====== Design System ====== */
+    :root{
+      --bg0:#061528;
+      --bg1:#081d35;
+      --bg2:#0b2b52;
+      --ink:#eaf2ff;
+      --muted: rgba(234,242,255,.72);
+      --muted2: rgba(234,242,255,.58);
+      --line: rgba(255,255,255,.12);
       --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.09);
-      --stroke: rgba(255,255,255,.14);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.72);
-      --soft: rgba(255,255,255,.55);
-      --blue: #4cc3ff;
-      --blue2: #6ea8ff;
-      --accent: #d9b56b; /* subtle gold */
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-      --shadow2: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 22px;
-      --radius2: 28px;
+      --card2: rgba(255,255,255,.08);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --shadow2: 0 10px 30px rgba(0,0,0,.28);
+      --accent:#9fd4ff;      /* soft ice-blue */
+      --accent2:#4aa3ff;     /* brighter blue */
+      --gold:#f4d27a;        /* warm accent */
+      --radius: 18px;
+      --radius2: 26px;
       --max: 1120px;
-    }}
 
-    *{{ box-sizing:border-box; }}
-    html{{ scroll-behavior:smooth; }}
-    body{{
+      --serif: Georgia, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
       margin:0;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 700px at 15% 10%, rgba(76,195,255,.16), transparent 55%),
-        radial-gradient(900px 600px at 85% 20%, rgba(110,168,255,.18), transparent 55%),
-        radial-gradient(900px 900px at 60% 95%, rgba(217,181,107,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 45%, var(--bg2));
-      min-height:100vh;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--ink);
+      font-family: var(--sans);
       line-height:1.55;
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(79,172,254,.22), transparent 60%),
+        radial-gradient(900px 600px at 90% 0%, rgba(159,212,255,.12), transparent 55%),
+        radial-gradient(1200px 700px at 60% 120%, rgba(244,210,122,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 35%, var(--bg2));
       overflow-x:hidden;
-    }}
+    }
 
-    /* Subtle animated grain */
-    body::before{{
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:min(var(--max), calc(100% - 40px)); margin-inline:auto; }
+
+    /* ====== Top Nav ====== */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(6,21,40,.85), rgba(6,21,40,.55));
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding: 14px 0;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      min-width: 220px;
+    }
+    .mark{
+      width:38px; height:38px;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(159,212,255,.95), rgba(74,163,255,.2) 55%, rgba(244,210,122,.18) 90%),
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 12px 35px rgba(0,0,0,.28);
+    }
+    .brand h1{
+      font-family: var(--serif);
+      font-size: 14px;
+      margin:0;
+      letter-spacing:.25px;
+      line-height:1.15;
+    }
+    .brand p{
+      margin:2px 0 0;
+      font-size:12px;
+      color: var(--muted2);
+    }
+
+    .links{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+    .links a{
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: .22s ease;
+    }
+    .links a:hover{ color: var(--ink); border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.05); }
+    .links a.active{ color: var(--ink); border-color: rgba(159,212,255,.35); background: rgba(159,212,255,.12); }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: linear-gradient(135deg, rgba(74,163,255,.22), rgba(255,255,255,.06));
+      box-shadow: var(--shadow2);
+      transition: transform .18s ease, background .25s ease, border-color .25s ease;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(159,212,255,.35); background: linear-gradient(135deg, rgba(74,163,255,.28), rgba(255,255,255,.08)); }
+
+    .hamburger{ display:none; }
+
+    /* ====== Hero ====== */
+    .hero{ padding: 44px 0 24px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .heroCard{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(159,212,255,.18), transparent 55%),
+        radial-gradient(900px 600px at 100% 20%, rgba(74,163,255,.12), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      padding: 28px 26px;
+    }
+    .heroCard:before{
       content:"";
-      position:fixed;
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(600px 400px at 10% 30%, rgba(244,210,122,.10), transparent 55%),
+        radial-gradient(600px 400px at 90% 10%, rgba(159,212,255,.10), transparent 55%);
+      pointer-events:none;
+      filter: blur(0px);
+      opacity:.9;
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(244,210,122,.28);
+      background: rgba(244,210,122,.10);
+      color: rgba(255,255,255,.92);
+      font-size: 12px;
+      position:relative;
+      z-index:1;
+    }
+    .dot{ width:8px; height:8px; border-radius:999px; background: var(--gold); box-shadow: 0 0 0 4px rgba(244,210,122,.14); }
+
+    .heroTitle{
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.12;
+      margin: 14px 0 10px;
+      position:relative;
+      z-index:1;
+      letter-spacing:.2px;
+    }
+
+    .heroSub{
+      color: var(--muted);
+      margin: 0 0 16px;
+      max-width: 62ch;
+      position:relative;
+      z-index:1;
+      font-size: 15px;
+    }
+
+    .heroMeta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:1;
+      margin-top: 16px;
+    }
+    .pill{
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .heroCtas{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 18px; position:relative; z-index:1; }
+    .btnPrimary{
+      background: linear-gradient(135deg, rgba(74,163,255,.42), rgba(244,210,122,.16));
+      border-color: rgba(159,212,255,.35);
+    }
+
+    .sideCard{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .sideTop{
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .sideTop h3{ margin:0; font-family: var(--serif); letter-spacing:.2px; }
+    .sideTop p{ margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+
+    .countdown{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 16px 18px 18px;
+    }
+    .timeBox{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(500px 220px at 20% 10%, rgba(159,212,255,.16), transparent 60%),
+        rgba(255,255,255,.05);
+      padding: 12px 10px;
+      text-align:center;
+    }
+    .timeBox strong{ display:block; font-size: 22px; letter-spacing:.5px; }
+    .timeBox span{ display:block; margin-top:4px; font-size: 11px; color: var(--muted2); }
+
+    .note{
+      padding: 0 18px 18px;
+      color: var(--muted2);
+      font-size: 12px;
+    }
+
+    /* ====== Sections ====== */
+    section{ padding: 34px 0; }
+    .sectionTitle{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-family: var(--serif);
+      font-size: 22px;
+      letter-spacing:.25px;
+    }
+    .sectionTitle p{ margin:0; color: var(--muted2); font-size: 13px; max-width: 60ch; }
+
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .grid3{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(700px 260px at 15% 10%, rgba(159,212,255,.12), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+    }
+    .card:after{
+      content:"";
+      position:absolute;
       inset:0;
       pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
-      mix-blend-mode:overlay;
-      opacity:.22;
-      animation: drift 14s linear infinite;
-    }}
-    @keyframes drift {{
-      0% {{ transform: translate3d(0,0,0); }}
-      100% {{ transform: translate3d(-40px, 30px, 0); }}
-    }}
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,.10));
+      opacity:.55;
+    }
+    .cardInner{ position:relative; z-index:1; padding: 18px 18px 16px; }
 
-    a{{ color:inherit; text-decoration:none; }}
-    img{{ max-width:100%; display:block; }}
-
-    .skip {{
-      position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
-    }}
-    .skip:focus {{
-      left:12px; top:12px; width:auto; height:auto; padding:10px 12px;
-      background:rgba(0,0,0,.7); border:1px solid var(--stroke); border-radius:12px; z-index:9999;
-    }}
-
-    .container{{ width:min(var(--max), calc(100% - 44px)); margin-inline:auto; }}
-    .section{{ padding: 88px 0; position:relative; }}
-    .section--tight{{ padding: 64px 0; }}
-    .kicker {{
-      display:inline-flex; gap:10px; align-items:center;
-      padding:8px 12px; border-radius:999px;
-      background: linear-gradient(90deg, rgba(76,195,255,.12), rgba(110,168,255,.08));
-      border:1px solid rgba(76,195,255,.22);
-      color: var(--muted);
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      font-size:.78rem;
-    }}
-    .dot {{
-      width:8px; height:8px; border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, #fff, var(--blue));
-      box-shadow: 0 0 0 6px rgba(76,195,255,.12);
-    }}
-
-    /* Header */
-    .header {{
-      position:sticky; top:0; z-index:60;
-      backdrop-filter: blur(14px);
-      background: rgba(5,11,23,.56);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }}
-    .nav {{
-      display:flex; justify-content:space-between; align-items:center;
-      padding: 14px 0;
-      gap: 14px;
-    }}
-    .brand {{
-      display:flex; align-items:center; gap:12px;
-      font-weight:700;
-      letter-spacing:.02em;
-    }}
-    .brand__mark {{
-      width:42px; height:42px; border-radius:14px;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%),
-        linear-gradient(135deg, rgba(76,195,255,.9), rgba(110,168,255,.55));
-      box-shadow: 0 10px 26px rgba(76,195,255,.18);
-      border: 1px solid rgba(255,255,255,.16);
-    }}
-    .brand__text small {{
-      display:block; font-weight:500; color:var(--soft); letter-spacing:.06em; text-transform:uppercase; font-size:.72rem;
-      margin-top:2px;
-    }}
-    .nav__links {{
-      display:flex; align-items:center; gap: 8px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }}
-    .nav__links a {{
-      padding:10px 12px; border-radius:999px;
-      color:var(--muted);
-      border: 1px solid transparent;
-      transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
-      font-size:.92rem;
-    }}
-    .nav__links a:hover {{
-      background: rgba(255,255,255,.06);
-      border-color: rgba(255,255,255,.10);
-      color: var(--text);
-      transform: translateY(-1px);
-    }}
-    .nav__links a[aria-current="page"] {{
-      background: linear-gradient(90deg, rgba(76,195,255,.16), rgba(110,168,255,.10));
-      border-color: rgba(76,195,255,.26);
-      color: var(--text);
-    }}
-    .nav__btn {{
-      display:none;
-      width:44px; height:44px; border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color:var(--text);
-      box-shadow: var(--shadow2);
-    }}
-
-    /* Hero */
-    .hero {{
-      padding: 86px 0 40px;
-    }}
-    .hero__grid {{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 34px;
-      align-items:center;
-    }}
-    .hero h1 {{
-      margin: 14px 0 12px;
-      font-family: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-      font-size: clamp(2.25rem, 3.6vw, 3.35rem);
-      line-height:1.12;
-      letter-spacing:.01em;
-    }}
-    .hero p {{
-      color: var(--muted);
-      font-size: 1.02rem;
-      margin: 0 0 20px;
-      max-width: 62ch;
-    }}
-    .hero__cta {{
-      display:flex; gap: 12px; flex-wrap:wrap;
-      margin-top: 18px;
-    }}
-    .btn {{
-      display:inline-flex; align-items:center; gap:10px;
-      padding: 12px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      box-shadow: var(--shadow2);
-      transition: transform .2s ease, background .2s ease, border-color .2s ease;
-      font-weight:600;
-    }}
-    .btn:hover {{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.08);
-      border-color: rgba(255,255,255,.20);
-    }}
-    .btn--primary {{
-      background: linear-gradient(135deg, rgba(76,195,255,.9), rgba(110,168,255,.55));
-      border-color: rgba(76,195,255,.40);
-      color: #071427;
-    }}
-    .btn--primary:hover {{
-      background: linear-gradient(135deg, rgba(76,195,255,1), rgba(110,168,255,.62));
-    }}
-    .btn svg{{ width:18px; height:18px; }}
-
-    .hero__card {{
-      position:relative;
-      border-radius: var(--radius2);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }}
-    .hero__card::before {{
-      content:"";
-      position:absolute; inset:-2px;
-      background: radial-gradient(500px 220px at 30% 10%, rgba(76,195,255,.22), transparent 60%),
-                  radial-gradient(420px 260px at 70% 80%, rgba(217,181,107,.12), transparent 55%);
-      pointer-events:none;
-    }}
-    .hero__poster {{
-      padding: 22px;
-      position:relative;
-    }}
-    .hero__poster .mini {{
-      display:grid; gap: 10px;
-    }}
-    .mini__row {{
-      display:flex; justify-content:space-between; align-items:center; gap:12px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.10);
-    }}
-    .mini__row strong {{
-      display:block;
-      font-family: ui-serif, "Iowan Old Style", Georgia, serif;
-      letter-spacing:.01em;
-    }}
-    .mini__row span {{
-      color: var(--soft);
-      font-size:.92rem;
-    }}
-    .mini__badge {{
-      display:inline-flex; align-items:center; gap:10px;
-      padding: 10px 12px; border-radius: 999px;
-      background: rgba(76,195,255,.12);
-      border: 1px solid rgba(76,195,255,.24);
-      color: var(--text);
-      font-weight:600;
-      width:fit-content;
-    }}
-
-    /* Cards / layout */
-    .grid {{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 18px;
-    }}
-    .card {{
-      grid-column: span 12;
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      position:relative;
-    }}
-    .card::after {{
-      content:"";
-      position:absolute; inset:auto 0 0 0;
-      height:5px;
-      background: linear-gradient(90deg, rgba(76,195,255,.0), rgba(76,195,255,.65), rgba(217,181,107,.55), rgba(76,195,255,.0));
-      opacity:.7;
-    }}
-    .card__inner {{
-      padding: 22px;
-      position:relative;
-    }}
-    .card h2 {{
-      margin: 0 0 10px;
-      font-family: ui-serif, Georgia, serif;
-      letter-spacing:.01em;
-      font-size: 1.6rem;
-    }}
-    .card h3 {{
-      margin: 0 0 8px;
-      font-family: ui-serif, Georgia, serif;
-      letter-spacing:.01em;
-      font-size: 1.22rem;
-    }}
-    .muted{{ color: var(--muted); }}
-    .divider {{
-      height:1px; background: rgba(255,255,255,.10);
-      margin: 18px 0;
-    }}
-
-    /* About */
-    .about__wrap {{
-      display:grid;
-      grid-template-columns: 1fr 1.3fr;
-      gap: 18px;
-      align-items:start;
-    }}
-    .profileCard {{
-      overflow:hidden;
-      border-radius: var(--radius2);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow);
-    }}
-    .profileCard__img {{
-      aspect-ratio: 4/3;
-      background: rgba(0,0,0,.22);
-      position:relative;
-    }}
-    .profileCard__img img {{
-      width:100%; height:100%; object-fit:cover;
-      filter: contrast(1.02) saturate(1.04);
-    }}
-    .profileCard__img::after {{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        linear-gradient(180deg, rgba(5,11,23,.0), rgba(5,11,23,.55));
-      pointer-events:none;
-    }}
-    .profileCard__body {{
-      padding: 18px 18px 20px;
-    }}
-    .profileCard__body p {{ margin: 0 0 10px; color: var(--muted); }}
-    .profileCard__body p:last-child {{ margin-bottom:0; }}
-    .stats {{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }}
-    .stat {{
-      padding: 12px 12px;
-      border-radius: 16px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.10);
-    }}
-    .stat__k {{
-      color: var(--soft);
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-size:.72rem;
-      margin-bottom: 6px;
-    }}
-    .stat__v {{
-      font-weight:650;
-      letter-spacing:.01em;
-    }}
-
-    /* Timeline */
-    .timeline {{
-      list-style:none; padding:0; margin:0;
-      display:grid; gap: 12px;
-    }}
-    .timeline__item {{
-      display:grid;
-      grid-template-columns: 18px 1fr;
-      gap: 12px;
-      align-items:start;
-    }}
-    .timeline__dot {{
-      width:10px; height:10px; border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, #fff, var(--blue2));
-      box-shadow: 0 0 0 6px rgba(110,168,255,.12);
-      margin-top: 10px;
-    }}
-    .timeline__content {{
-      padding: 14px 14px;
-      border-radius: 18px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.10);
-    }}
-    .timeline__meta {{
-      display:flex; gap: 8px; flex-wrap:wrap; align-items:center;
-      margin-bottom: 6px;
-    }}
-    .chip {{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(76,195,255,.22);
-      background: rgba(76,195,255,.10);
-      color: var(--muted);
-      font-size:.78rem;
-    }}
-    .timeline__label {{
-      color: var(--soft);
-      font-size:.86rem;
-    }}
-    .timeline__content h4 {{
-      margin: 0;
-      font-weight:650;
-    }}
-
-    /* Book section */
-    .bookGrid {{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 18px;
-      align-items:start;
-    }}
-    .mock {{
-      border-radius: var(--radius2);
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-      box-shadow: var(--shadow);
-      position:relative;
-    }}
-    .mock__top {{
-      padding: 18px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }}
-    .mock__top strong {{
-      font-family: ui-serif, Georgia, serif;
-      font-size: 1.18rem;
-      letter-spacing:.01em;
-    }}
-    .mock__top span {{
-      color: var(--soft);
-      font-size:.9rem;
-    }}
-    .mock__imgs {{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }}
-    .mock__imgs img {{
-      width:100%;
-      aspect-ratio: 3/4;
-      object-fit:cover;
-      border-right: 1px solid rgba(255,255,255,.10);
-    }}
-    .mock__imgs img:last-child {{ border-right:0; }}
-    .quotes {{
-      display:grid; gap: 12px;
-    }}
-    .quote {{
-      margin:0;
-      padding: 16px 16px;
-      border-radius: 18px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.10);
-    }}
-    .quote p {{ margin:0 0 10px; color: var(--muted); }}
-    .quote footer {{ color: var(--soft); font-size:.9rem; }}
-
-    /* Gallery */
-    .gallery {{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 14px;
-    }}
-    .gallery__item {{
-      grid-column: span 3;
-      border-radius: 20px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      position:relative;
-      cursor:pointer;
-      transition: transform .2s ease, border-color .2s ease, background .2s ease;
-    }}
-    .gallery__item:hover {{
-      transform: translateY(-3px);
-      border-color: rgba(76,195,255,.28);
-      background: rgba(255,255,255,.07);
-    }}
-    .gallery__item img {{
-      width:100%;
-      aspect-ratio: 3/4;
-      object-fit:cover;
-    }}
-    .gallery__tag {{
-      position:absolute; top: 12px; left: 12px;
+    .cardHeader{ display:flex; align-items:flex-start; justify-content:space-between; gap: 12px; margin-bottom: 10px; }
+    .tag{
+      font-size: 11px;
+      color: rgba(255,255,255,.85);
       padding: 7px 10px;
       border-radius: 999px;
-      background: rgba(7,20,39,.72);
-      border:1px solid rgba(255,255,255,.14);
-      color: var(--text);
-      font-size:.8rem;
-      backdrop-filter: blur(10px);
-    }}
-    .gallery__item figcaption {{
-      padding: 12px 12px 14px;
-      border-top: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
-    }}
-    .gallery__title {{
-      font-weight:700;
-      letter-spacing:.01em;
-    }}
-    .gallery__sub {{
-      color: var(--soft);
-      font-size:.9rem;
-      margin-top: 3px;
-    }}
+      border: 1px solid rgba(159,212,255,.28);
+      background: rgba(159,212,255,.10);
+      white-space:nowrap;
+    }
 
-    /* Event */
-    .cards3 {{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }}
-    .infoCard {{
-      padding: 16px 16px;
-      border-radius: 18px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.10);
-    }}
-    .infoCard strong {{
-      display:block;
-      margin-bottom: 6px;
-      font-family: ui-serif, Georgia, serif;
-      letter-spacing:.01em;
-      font-size: 1.05rem;
-    }}
-    .infoCard span {{
-      color: var(--muted);
-    }}
+    .card h3{ margin:0; font-family: var(--serif); font-size: 16px; letter-spacing:.2px; }
+    .card p{ margin: 10px 0 0; color: var(--muted); font-size: 13px; }
 
-    /* Modal */
-    .modal {{
-      position:fixed; inset:0;
-      display:none;
-      place-items:center;
-      background: rgba(0,0,0,.62);
-      z-index:120;
-      padding: 20px;
-    }}
-    .modal[aria-hidden="false"] {{ display:grid; }}
-    .modal__panel {{
-      width: min(980px, 100%);
-      border-radius: var(--radius2);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      border: 1px solid rgba(255,255,255,.14);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }}
-    .modal__top {{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding: 14px 16px;
+    /* ====== About / Profile ====== */
+    .profileCard{ overflow:hidden; }
+    .profileMedia{
+      position:relative;
+      aspect-ratio: 16/10;
+      background: rgba(255,255,255,.03);
       border-bottom: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
-    }}
-    .modal__top strong {{
-      font-family: ui-serif, Georgia, serif;
-      letter-spacing:.01em;
-    }}
-    .modal__close {{
-      width:40px; height:40px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      cursor:pointer;
-    }}
-    .modal__body {{
+    }
+    .profileMedia img{ width:100%; height:100%; object-fit:cover; display:block; filter: contrast(1.02) saturate(1.02); }
+    .profileMedia:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(600px 280px at 20% 15%, rgba(159,212,255,.22), transparent 58%),
+        linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.35));
+    }
+    .profileCaption{
+      position:absolute;
+      left: 16px;
+      bottom: 14px;
+      right: 16px;
+      z-index:2;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .profileCaption h3{ margin:0; font-family: var(--serif); letter-spacing:.2px; }
+    .profileCaption small{ color: rgba(255,255,255,.80); }
+
+    .bio{ color: var(--muted); font-size: 13.5px; }
+    .bio p{ margin: 10px 0 0; }
+
+    .bullet{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .bullet li{ margin: 6px 0; }
+
+    /* ====== Timeline ====== */
+    .timeline{ padding: 8px 18px 18px; }
+    .tlItem{
       display:grid;
-      grid-template-columns: 1fr;
-      padding: 16px;
-      background: rgba(0,0,0,.16);
-    }}
-    .modal__body img {{
-      width:100%;
-      max-height: 78vh;
-      object-fit:contain;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-    }}
+      grid-template-columns: 110px 1fr;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px dashed rgba(255,255,255,.14);
+    }
+    .tlItem:last-child{ border-bottom:none; padding-bottom: 0; }
+    .tlItem .when{ color: rgba(244,210,122,.92); font-weight:700; font-size: 12px; letter-spacing:.3px; }
+    .tlItem .what{ color: var(--muted); font-size: 13px; }
 
-    /* Reveal */
-    .reveal {{
-      opacity:0;
-      transform: translateY(10px);
-      transition: opacity .7s ease, transform .7s ease;
-    }}
-    .reveal.is-visible {{
-      opacity:1;
-      transform: translateY(0);
-    }}
-
-    /* Footer */
-    footer {{
-      padding: 30px 0 46px;
-      border-top: 1px solid rgba(255,255,255,.08);
-      color: var(--soft);
-    }}
-    .foot {{
-      display:flex; justify-content:space-between; gap: 14px; flex-wrap:wrap;
+    /* ====== Book Launch ====== */
+    .bookWrap{ display:grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
+    .mockup{
+      padding: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
       align-items:center;
-    }}
-    .foot small {{ opacity:.9; }}
+    }
+    .bookCard{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      overflow:hidden;
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+      transform-style: preserve-3d;
+      transition: transform .25s ease;
+      cursor: zoom-in;
+    }
+    .bookCard:hover{ transform: translateY(-3px) rotateX(2deg) rotateY(-3deg); }
+    .bookCard img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .bookMeta{ padding: 18px 18px 16px; }
+    .bookMeta h3{ margin:0; font-family: var(--serif); }
+    .bookMeta p{ margin: 10px 0 0; color: var(--muted); font-size: 13px; }
 
-    /* Responsive */
-    @media (max-width: 980px) {{
-      .hero__grid {{ grid-template-columns: 1fr; }}
-      .about__wrap {{ grid-template-columns: 1fr; }}
-      .bookGrid {{ grid-template-columns: 1fr; }}
-      .gallery__item {{ grid-column: span 6; }}
-      .cards3 {{ grid-template-columns: 1fr; }}
-    }}
-    @media (max-width: 720px) {{
-      .nav__btn {{ display:inline-grid; place-items:center; }}
-      .nav__links {{
-        position: fixed;
-        left: 22px; right: 22px; top: 74px;
-        padding: 12px;
-        border-radius: 22px;
-        background: rgba(5,11,23,.92);
-        border: 1px solid rgba(255,255,255,.12);
-        box-shadow: var(--shadow);
+    .quote{
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(244,210,122,.20);
+      background: rgba(244,210,122,.08);
+      color: rgba(255,255,255,.88);
+      font-size: 13px;
+    }
+    .quote strong{ color: rgba(244,210,122,.95); }
+
+    /* ====== Gallery ====== */
+    .gallery{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .gItem{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      overflow:hidden;
+      box-shadow: var(--shadow2);
+      cursor: zoom-in;
+      transition: transform .2s ease, border-color .2s ease;
+      position:relative;
+    }
+    .gItem:hover{ transform: translateY(-3px); border-color: rgba(159,212,255,.30); }
+    .gItem img{ width:100%; height: 220px; object-fit:cover; display:block; }
+    .gLabel{
+      position:absolute;
+      left: 10px; bottom: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(6,21,40,.55);
+      border: 1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(10px);
+      font-size: 12px;
+      color: rgba(255,255,255,.88);
+    }
+
+    /* ====== Event Details ====== */
+    .detailGrid{ display:grid; grid-template-columns: 1.2fr .8fr; gap: 18px; align-items:stretch; }
+    .details{ padding: 18px; }
+    .detailList{ margin: 12px 0 0; padding:0; list-style:none; }
+    .detailList li{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(255,255,255,.14);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .detailList li:last-child{ border-bottom:none; }
+    .detailList b{ color: rgba(255,255,255,.88); font-weight: 700; }
+    .miniHint{ color: var(--muted2); font-size: 12px; margin-top: 10px; }
+
+    /* ====== Modal (Lightbox) ====== */
+    .modal{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.62);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 24px;
+      z-index: 200;
+    }
+    .modal.open{ display:flex; }
+    .modalBox{
+      width:min(980px, 100%);
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(10,26,46,.62);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modalTop{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.12); }
+    .modalTop strong{ font-family: var(--serif); letter-spacing:.2px; }
+    .close{
+      appearance:none;
+      border:none;
+      background: rgba(255,255,255,.08);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor:pointer;
+      border: 1px solid rgba(255,255,255,.14);
+      transition: .2s ease;
+    }
+    .close:hover{ background: rgba(255,255,255,.12); }
+    .modalImg{ background: rgba(0,0,0,.25); }
+    .modalImg img{ width:100%; height:auto; display:block; }
+
+    /* ====== Footer ====== */
+    footer{
+      padding: 34px 0 44px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: var(--muted2);
+      font-size: 13px;
+    }
+    .foot{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 16px;
+      flex-wrap:wrap;
+    }
+
+    /* ====== Reveal Animations ====== */
+    .reveal{ opacity:0; transform: translateY(10px); transition: .6s ease; }
+    .reveal.show{ opacity:1; transform: translateY(0); }
+
+    /* ====== Responsive ====== */
+    @media (max-width: 980px){
+      .heroGrid{ grid-template-columns: 1fr; }
+      .grid3{ grid-template-columns: 1fr; }
+      .grid2{ grid-template-columns: 1fr; }
+      .bookWrap{ grid-template-columns: 1fr; }
+      .detailGrid{ grid-template-columns: 1fr; }
+      .gallery{ grid-template-columns: 1fr 1fr; }
+      .links{ display:none; }
+      .hamburger{ display:inline-flex; }
+      .navMenu{
         display:none;
-      }}
-      .nav__links.is-open {{ display:flex; }}
-      .nav__links a {{ flex: 1 1 auto; text-align:center; }}
-      .gallery__item {{ grid-column: span 12; }}
-      .mock__imgs {{ grid-template-columns: 1fr; }}
-      .mock__imgs img {{ border-right:0; border-bottom:1px solid rgba(255,255,255,.10); }}
-      .mock__imgs img:last-child {{ border-bottom:0; }}
-    }}
-    @media (prefers-reduced-motion: reduce) {{
-      html {{ scroll-behavior:auto; }}
-      body::before {{ animation:none; }}
-      .reveal {{ transition:none; }}
-      .btn, .nav__links a, .gallery__item {{ transition:none; }}
-    }}
+        padding: 10px 0 14px;
+      }
+      .navMenu.open{ display:block; }
+      .navMenu a{
+        display:block;
+        padding: 12px 10px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,.10);
+        background: rgba(255,255,255,.04);
+        margin-top: 10px;
+        color: var(--muted);
+      }
+      .navMenu a:hover{ color: var(--ink); border-color: rgba(159,212,255,.25); }
+    }
+
+    @media (max-width: 520px){
+      .countdown{ grid-template-columns: 1fr 1fr; }
+      .tlItem{ grid-template-columns: 1fr; }
+      .gallery{ grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
-
-  <header class="header">
+  <!-- ====== NAV ====== -->
+  <header class="topbar">
     <div class="container">
-      <nav class="nav" aria-label="Primary">
-        <a class="brand" href="#top">
-          <span class="brand__mark" aria-hidden="true"></span>
-          <span class="brand__text">
-            {esc(profile_title)}
-            <small>Birthday • Book Launch</small>
+      <div class="nav">
+        <a class="brand" href="#top" aria-label="Go to top">
+          <span class="mark" aria-hidden="true"></span>
+          <span>
+            <h1>Pastor Omoniyi Oluwagbemiga Ayeni</h1>
+            <p>Birthday Celebration &amp; Book Launch</p>
           </span>
         </a>
 
-        <button class="nav__btn" id="navBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-
-        <div class="nav__links" id="navLinks">
+        <nav class="links" aria-label="Primary">
           <a href="#about">About</a>
           <a href="#journey">Journey</a>
           <a href="#ministry">Ministry</a>
           <a href="#book">New Book</a>
-          <a href="#gallery">Gallery</a>
+          <a href="#gallery">Previous Books</a>
           <a href="#event">Event</a>
-        </div>
-      </nav>
+          <a class="btn" href="#rsvp">RSVP</a>
+        </nav>
+
+        <button class="btn hamburger" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+          ☰ Menu
+        </button>
+      </div>
+
+      <div class="navMenu" id="navMenu" aria-label="Mobile">
+        <a href="#about">About</a>
+        <a href="#journey">Journey</a>
+        <a href="#ministry">Ministry</a>
+        <a href="#book">New Book</a>
+        <a href="#gallery">Previous Books</a>
+        <a href="#event">Event</a>
+        <a href="#rsvp">RSVP</a>
+      </div>
     </div>
   </header>
 
-  <main id="main">
-    <section class="hero" id="top">
-      <div class="container">
-        <div class="hero__grid">
-          <div class="reveal">
-            <span class="kicker"><span class="dot" aria-hidden="true"></span> Celebrating a Life of Service & Leadership</span>
-            <h1>{esc(profile_title)}<br/>Birthday Celebration & Book Launch</h1>
-            <p>
-              Join us to honor a distinguished finance professional and devoted minister of the Gospel,
-              and to celebrate the launch of the new book <strong>POWER AS OF OLD</strong>.
-            </p>
-            <div class="hero__cta">
-              <a class="btn btn--primary" href="#book">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M4 19V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  <path d="M6 17h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                Explore the New Book
-              </a>
-              <a class="btn" href="#event">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M8 7V3m8 4V3M4 11h16M6 21h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                Event Details
-              </a>
-              <a class="btn" href="#gallery">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z" stroke="currentColor" stroke-width="2"/>
-                  <path d="M8 13l2-2 3 3 2-2 3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                View Previous Books
-              </a>
-            </div>
+  <!-- ====== HERO ====== -->
+  <main id="top" class="hero">
+    <div class="container">
+      <div class="heroGrid">
+        <div class="heroCard reveal">
+          <div class="kicker"><span class="dot" aria-hidden="true"></span>Celebrating a life of service, excellence &amp; faith</div>
+          <h2 class="heroTitle">Birthday Celebration &amp; Book Launch</h2>
+          <p class="heroSub">
+            Join us in honouring <b>Pastor Solomon Omoniyi Oluwagbemiga Ayeni</b>—a Chartered Accountant, minister of the Word,
+            and a servant-leader—at his birthday celebration and the launch of his new book <b>“POWER AS OF OLD”</b>.
+          </p>
+
+          <div class="heroMeta">
+            <span class="pill">Blue-themed • Elegant • Modern</span>
+            <span class="pill">Ministry • Leadership • Legacy</span>
+            <span class="pill">Book Launch: POWER AS OF OLD</span>
           </div>
 
-          <aside class="hero__card reveal" aria-label="Highlights">
-            <div class="hero__poster">
-              <div class="mini__badge"><span class="dot" aria-hidden="true"></span> POWER AS OF OLD — Now Launching</div>
-              <div class="mini" style="margin-top:14px">
-                <div class="mini__row">
-                  <div>
-                    <strong>Theme</strong>
-                    <span>Power of God — yesterday, today, forever</span>
-                  </div>
-                </div>
-                <div class="mini__row">
-                  <div>
-                    <strong>Celebration</strong>
-                    <span>Birthday • Book Launch • Thanksgiving</span>
-                  </div>
-                </div>
-                <div class="mini__row">
-                  <div>
-                    <strong>Explore</strong>
-                    <span>Biography • Ministry • Gallery • Event</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </aside>
+          <div class="heroCtas">
+            <a class="btn btnPrimary" href="#book">Explore the New Book</a>
+            <a class="btn" href="#event">View Event Details</a>
+          </div>
+        </div>
+
+        <aside class="sideCard reveal">
+          <div class="sideTop">
+            <h3>Countdown to Celebration</h3>
+            <p>Set your event date/time below in the code (see <b>eventDate</b> in JavaScript).</p>
+          </div>
+          <div class="countdown" aria-label="Countdown">
+            <div class="timeBox"><strong id="dd">00</strong><span>Days</span></div>
+            <div class="timeBox"><strong id="hh">00</strong><span>Hours</span></div>
+            <div class="timeBox"><strong id="mm">00</strong><span>Minutes</span></div>
+            <div class="timeBox"><strong id="ss">00</strong><span>Seconds</span></div>
+          </div>
+          <div class="note">Tip: if the date is in the past, the countdown will gracefully show <b>00</b>.</div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- ====== ABOUT ====== -->
+  <section id="about">
+    <div class="container">
+      <div class="sectionTitle reveal">
+        <div>
+          <h2>About the Celebrant</h2>
+          <p>A brief profile—education, professional service, and a lifelong call to ministry.</p>
         </div>
       </div>
-    </section>
 
-    <section class="section section--tight" id="about">
-      <div class="container">
-        <div class="grid">
-          <article class="card reveal" style="grid-column: span 12;">
-            <div class="card__inner">
-              <span class="kicker"><span class="dot" aria-hidden="true"></span> About the Celebrant</span>
-              <div class="about__wrap" style="margin-top:16px">
-                <div class="profileCard">
-                  <div class="profileCard__img">
-                    <img src="{esc(uris['celebrant'])}" alt="Portrait of {esc(profile_title)}" />
-                  </div>
-                  <div class="profileCard__body">
-                    <p><strong>{esc(profile_title)}</strong> is celebrated for a life marked by integrity, leadership, and faithful service.</p>
-                    {about_html}
-                  </div>
-                </div>
-
-                <div>
-                  <h2 style="margin-top:0">At a Glance</h2>
-                  <p class="muted">A snapshot of key highlights—profession, education, ministry, and expertise.</p>
-
-                  <div class="stats">{highlights_html}</div>
-
-                  <div class="divider"></div>
-
-                  <h3>Professional Strengths</h3>
-                  <p class="muted">
-                    Finance operations • budgeting and compliance • resource stewardship • people management • accounting systems.
-                  </p>
-
-                  <div class="divider"></div>
-
-                  <h3>Why We Celebrate</h3>
-                  <p class="muted">
-                    Today we honor the grace of God in his life, and the impact of his work—both in professional service and in ministry.
-                  </p>
-                </div>
+      <div class="grid2">
+        <article class="card profileCard reveal">
+          <div class="profileMedia">
+            <img alt="Pastor Omoniyi Oluwagbemiga Ayeni" src="data:image/webp;base64,UklGRs4dAABXRUJQVlA4IMIdAABwkgKdASq0BpwBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
+            <div class="profileCaption">
+              <div>
+                <h3>Pastor Solomon Omoniyi Oluwagbemiga Ayeni</h3>
+                <small>Chartered Accountant • Minister of God • Teacher of the Word</small>
               </div>
+              <span class="tag">Honouring a Legacy</span>
             </div>
-          </article>
+          </div>
+          <div class="cardInner bio">
+            <p>
+              A <b>Chartered Accountant</b> and a <b>Fellow of the Institute of Chartered Accountants of Nigeria (ICAN)</b>,
+              Pastor Ayeni attended <b>Methodist High School, Ibadan</b> (1976–1981), earned his <b>OND/HND in Accountancy</b>
+              from <b>The Polytechnic, Ibadan</b> (Upper Credit, 1987), and obtained an <b>MBA (Finance)</b> from the
+              <b>University of Ibadan</b> (2000).
+            </p>
+            <p>
+              His professional experience spans <b>about 38 years</b> across respected institutions including CRIN, PPFN, BSN,
+              IITA, UNFPA, and ARFH—where he served as <b>Director, Finance &amp; Operations</b> before retiring from secular work.
+            </p>
+            <p>
+              Beyond his profession, he has served God from his secondary school days—known for sound teaching, prayer,
+              and practical leadership. He currently pastors <b>The Apostolic Church Nigeria</b> assembly at <b>Afonta</b> in Ibadan.
+            </p>
+          </div>
+        </article>
+
+        <aside class="card reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>At a Glance</h3>
+              <span class="tag">Key Highlights</span>
+            </div>
+            <ul class="bullet">
+              <li><b>ICAN Fellow</b> (FCA) • Chartered Accountant (2006).</li>
+              <li><b>Finance leadership</b> across national and international organisations.</li>
+              <li>Skilled with <b>Daceasy, Peachtree, Oracle, Epicor</b> and <b>QuickBooks</b>.</li>
+              <li>Trained in <b>Budget Maestro</b> (Nairobi, Kenya) for budget preparation.</li>
+              <li><b>Theology</b>: B.Th (Best graduating student) • MCS (Ethics) • PhD (in progress).</li>
+              <li>A <b>sought-after teacher</b> of the Word; committed to raising Spirit-filled believers.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== JOURNEY ====== -->
+  <section id="journey">
+    <div class="container">
+      <div class="sectionTitle reveal">
+        <div>
+          <h2>Professional Journey</h2>
+          <p>A timeline of service across institutions—marked by integrity, stewardship, and excellence.</p>
         </div>
       </div>
-    </section>
 
-    <section class="section" id="journey">
-      <div class="container">
-        <div class="grid">
-          <article class="card reveal" style="grid-column: span 12;">
-            <div class="card__inner">
-              <span class="kicker"><span class="dot" aria-hidden="true"></span> Education & Career Journey</span>
-              <h2 style="margin-top:14px">A Timeline of Growth and Service</h2>
-              <p class="muted">From academic milestones to decades of professional excellence in finance and operations.</p>
-
-              <div class="divider"></div>
-
-              <ol class="timeline" aria-label="Timeline">
-                {timeline_html}
-              </ol>
+      <div class="grid2">
+        <article class="card reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Career Timeline</h3>
+              <span class="tag">1987 → 2025</span>
             </div>
-          </article>
+          </div>
+          <div class="timeline">
+            <div class="tlItem"><div class="when">1987</div><div class="what">NYSC service in old Ondo State.</div></div>
+            <div class="tlItem"><div class="when">1988–1991</div><div class="what">Payroll Officer, Cocoa Research Institute of Nigeria (CRIN).</div></div>
+            <div class="tlItem"><div class="when">1991–1996</div><div class="what">Assistant Accountant → HQ Accountant, Planned Parenthood Federation of Nigeria (PPFN).</div></div>
+            <div class="tlItem"><div class="when">1996–2002</div><div class="what">Programme Accountant &amp; Finance/Admin. Associate, UNFPA.</div></div>
+            <div class="tlItem"><div class="when">2002–2006</div><div class="what">Head of Finance &amp; Assistant General Secretary, Bible Society of Nigeria (BSN).</div></div>
+            <div class="tlItem"><div class="when">2006–2007</div><div class="what">Corporate Finance &amp; Budget Manager, International Institute of Tropical Agriculture (IITA).</div></div>
+            <div class="tlItem"><div class="when">2007–2012</div><div class="what">Assistant General Manager (Finance), Femi Johnson &amp; Company Ltd. (Insurance Brokers).</div></div>
+            <div class="tlItem"><div class="when">2012–2014</div><div class="what">Returned to UNFPA as Programme Accountant &amp; Finance/Admin. Associate.</div></div>
+            <div class="tlItem"><div class="when">2014–2019</div><div class="what">Director of Finance &amp; Administration, USAID LOPIN-Region 1 (ARFH).</div></div>
+            <div class="tlItem"><div class="when">2020–2025</div><div class="what">Director, Finance &amp; Operations, USAID ICHSSA 2 (ARFH) — retired from secular work.</div></div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Education &amp; Formation</h3>
+              <span class="tag">Learning &amp; Calling</span>
+            </div>
+            <p>
+              With a strong foundation in accounting and finance, Pastor Ayeni pursued theological training that deepened
+              his ministry and teaching.
+            </p>
+            <ul class="bullet">
+              <li><b>Methodist High School, Ibadan</b> — Secondary education (1976–1981).</li>
+              <li><b>The Polytechnic, Ibadan</b> — OND/HND Accountancy (Upper Credit, 1987).</li>
+              <li><b>University of Ibadan</b> — MBA (Finance Option), 2000.</li>
+              <li><b>Immanuel College, Samonda, Ibadan</b> — Bachelors in Christian Theology (Best graduating student).</li>
+              <li><b>Olabisi Onabanjo University</b> — Masters in Christian Studies (Ethics), among the best in class.</li>
+              <li><b>PhD</b> — presently rounding up the programme.</li>
+            </ul>
+            <p class="miniHint">This combination of professional and spiritual formation reflects a life committed to both excellence and service.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== MINISTRY ====== -->
+  <section id="ministry">
+    <div class="container">
+      <div class="sectionTitle reveal">
+        <div>
+          <h2>Ministry &amp; Service</h2>
+          <p>A lifelong devotion to Christ—teaching, shepherding, and building faith communities.</p>
         </div>
       </div>
-    </section>
 
-    <section class="section section--tight" id="ministry">
-      <div class="container">
-        <div class="grid">
-          <article class="card reveal" style="grid-column: span 12;">
-            <div class="card__inner">
-              <span class="kicker"><span class="dot" aria-hidden="true"></span> Ministry & Calling</span>
-              <h2 style="margin-top:14px">A Life Rooted in the Word</h2>
-              <div class="muted" style="max-width:78ch">
-                {ministry_html}
-              </div>
-              <div class="divider"></div>
-              <div class="cards3" role="list">
-                <div class="infoCard" role="listitem">
-                  <strong>Early Service</strong>
-                  <span>Chapel prefect, organist, and Bible study leadership roles.</span>
-                </div>
-                <div class="infoCard" role="listitem">
-                  <strong>Academic Ministry</strong>
-                  <span>Theology and Christian Studies, with ongoing Ph.D. work.</span>
-                </div>
-                <div class="infoCard" role="listitem">
-                  <strong>Current Pastoral Work</strong>
-                  <span>Pastors an assembly in Ibadan District, The Apostolic Church Nigeria.</span>
-                </div>
-              </div>
+      <div class="grid3">
+        <article class="card reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Early Leadership</h3>
+              <span class="tag">Foundations</span>
             </div>
-          </article>
+            <p>
+              From his school years, Pastor Ayeni served with distinction—Chapel Prefect and school Organist at Methodist
+              High School, and Bible Study Officer in the Students Christian Movement (SCM).
+            </p>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Teaching Grace</h3>
+              <span class="tag">The Word</span>
+            </div>
+            <p>
+              A sought-after teacher of Scripture, his ministry is known for clarity, depth, and practical application—helping
+              believers grow in faith and obedience.
+            </p>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Pastoral Assignment</h3>
+              <span class="tag">The Apostolic Church</span>
+            </div>
+            <p>
+              He currently pastors the assembly at <b>Afonta</b> in Ibadan District of Ibadan Area of The Apostolic Church Nigeria
+              (LAWMNA Territory)—to the glory of God.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== NEW BOOK ====== -->
+  <section id="book">
+    <div class="container">
+      <div class="sectionTitle reveal">
+        <div>
+          <h2>Book Launch: “POWER AS OF OLD”</h2>
+          <p>Front &amp; back cover mockup, the message of the book, and highlighted endorsements.</p>
         </div>
       </div>
-    </section>
 
-    <section class="section" id="book">
-      <div class="container">
-        <div class="grid">
-          <article class="card reveal" style="grid-column: span 12;">
-            <div class="card__inner">
-              <span class="kicker"><span class="dot" aria-hidden="true"></span> Book Launch</span>
-              <h2 style="margin-top:14px">POWER AS OF OLD</h2>
-              <p class="muted">A call to believe, engage, and experience the power of God as in the days of old.</p>
-
-              <div class="divider"></div>
-
-              <div class="bookGrid">
-                <div class="mock" aria-label="New book mockup">
-                  <div class="mock__top">
-                    <div>
-                      <strong>Book Mockup</strong>
-                      <span>Front & back covers</span>
-                    </div>
-                    <span class="chip">New Release</span>
-                  </div>
-                  <div class="mock__imgs">
-                    <img src="{esc(uris['new_front'])}" alt="POWER AS OF OLD — Front cover" loading="lazy" />
-                    <img src="{esc(uris['new_back'])}" alt="POWER AS OF OLD — Back cover" loading="lazy" />
-                  </div>
-                </div>
-
-                <div>
-                  <h3>About the Book</h3>
-                  <div class="muted" style="max-width:70ch">
-                    {book_about_html}
-                  </div>
-
-                  <div class="divider"></div>
-
-                  <h3>Nuggets of Power</h3>
-                  <div class="quotes">
-                    {nuggets_html}
-                  </div>
-                </div>
-              </div>
-
-              <div class="divider"></div>
-
-              <div class="hero__cta">
-                <a class="btn btn--primary" href="#event">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 21s7-4.4 7-10.5A7 7 0 0 0 5 10.5C5 16.6 12 21 12 21Z" stroke="currentColor" stroke-width="2"/>
-                    <path d="M9 10h6M12 7v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
-                  Attend the Launch
-                </a>
-                <a class="btn" href="#gallery">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z" stroke="currentColor" stroke-width="2"/>
-                    <path d="M8 13l2-2 3 3 2-2 3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
-                  See Previous Books
-                </a>
-              </div>
+      <div class="bookWrap">
+        <article class="card reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Cover Mockups</h3>
+              <span class="tag">Tap to Zoom</span>
             </div>
-          </article>
+          </div>
+          <div class="mockup">
+            <div class="bookCard" data-title="POWER AS OF OLD — Front Cover" data-img="data:image/webp;base64,UklGRp4cAABXRUJQVlA4IIIcAABwkgKdASq0BpsBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+              <img alt="POWER AS OF OLD - Front" src="data:image/webp;base64,UklGRp4cAABXRUJQVlA4IIIcAABwkgKdASq0BpsBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
+            </div>
+            <div class="bookCard" data-title="POWER AS OF OLD — Back Cover" data-img="data:image/webp;base64,UklGRg4bAABXRUJQVlA4IPYaAABwkgKdASq0BpkBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+              <img alt="POWER AS OF OLD - Back" src="data:image/webp;base64,UklGRg4bAABXRUJQVlA4IPYaAABwkgKdASq0BpkBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
+            </div>
+          </div>
+          <div class="cardInner bookMeta">
+            <h3>About the Book</h3>
+            <p>
+              God’s power for miracles, signs, and wonders still exists today—just as in the Bible days. Jesus Christ,
+              the power of God, is the same yesterday, today, and forever.
+            </p>
+            <p>
+              <b>POWER AS OF OLD</b> invites readers to encounter God’s power in a fresh dimension, learn how to engage it for
+              personal wellbeing, and experience deliverance from bondage—through faith in Christ.
+            </p>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Nuggets of Power</h3>
+              <span class="tag">Highlights</span>
+            </div>
+            <p>
+              The book is enriched with testimonies, scripture-grounded teaching, and practical encouragement for believers
+              to move beyond abstract theology into Spirit-empowered living.
+            </p>
+
+            <div class="quote">
+              <strong>Testimony:</strong> “God miraculously healed me… our God is powerful and available to heal all who come to believe in Him.”
+              <br /><span style="color:var(--muted2)">— Pastor G.O.A. Alakuko, Ph.D (TACN Otta Area Superintendent)</span>
+            </div>
+
+            <div class="quote">
+              <strong>Endorsement:</strong> “Power as of the Old presents a compelling Pentecostal vision… bridging biblical faith and present-day Christian experience.”
+              <br /><span style="color:var(--muted2)">— Professor Femi Ayoade (Redeemers’ University, Ede)</span>
+            </div>
+
+            <div class="quote">
+              <strong>Insight:</strong> “This power is a spiritual force that brings wholistic transformation… a must-read for believers seeking a transformed life.”
+              <br /><span style="color:var(--muted2)">— Professor Kehinde Obasola (Olabisi Onabanjo University, Ago-Iwoye)</span>
+            </div>
+
+            <p class="miniHint">Tap a cover above to open it in a full-screen view.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PREVIOUS BOOKS ====== -->
+  <section id="gallery">
+    <div class="container">
+      <div class="sectionTitle reveal">
+        <div>
+          <h2>Gallery: Previous Books</h2>
+          <p>Four previous books launched—each one a milestone in ministry and impact.</p>
         </div>
       </div>
-    </section>
 
-    <section class="section section--tight" id="gallery">
-      <div class="container">
-        <div class="grid">
-          <article class="card reveal" style="grid-column: span 12;">
-            <div class="card__inner">
-              <span class="kicker"><span class="dot" aria-hidden="true"></span> Gallery</span>
-              <h2 style="margin-top:14px">Previous Books Launched</h2>
-              <p class="muted">A quick look at four earlier titles—labeled in order of release.</p>
-
-              <div class="divider"></div>
-
-              <div class="gallery" aria-label="Previous books gallery">
-                {gallery_html}
-              </div>
-
-              <p class="muted" style="margin-top:14px">Tip: Tap a cover to view it larger.</p>
-            </div>
-          </article>
+      <div class="gallery">
+        <div class="gItem reveal" data-title="1st Book" data-img="data:image/webp;base64,UklGRq4eAABXRUJQVlA4IKIeAABwkgKdASq0BpwBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+          <img alt="1st Book Cover" src="data:image/webp;base64,UklGRq4eAABXRUJQVlA4IKIeAABwkgKdASq0BpwBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
+          <div class="gLabel">1st Book</div>
         </div>
-      </div>
-    </section>
 
-    <section class="section" id="event">
-      <div class="container">
-        <div class="grid">
-          <article class="card reveal" style="grid-column: span 12;">
-            <div class="card__inner">
-              <span class="kicker"><span class="dot" aria-hidden="true"></span> Event Details</span>
-              <h2 style="margin-top:14px">Birthday Celebration & Book Launch</h2>
-              <p class="muted">Kindly check back for finalized details. (You can replace the placeholders below with confirmed information.)</p>
-
-              <div class="divider"></div>
-
-              <div class="cards3" role="list" aria-label="Event information">
-                <div class="infoCard" role="listitem">
-                  <strong>Date</strong>
-                  <span>To be announced</span>
-                </div>
-                <div class="infoCard" role="listitem">
-                  <strong>Time</strong>
-                  <span>To be announced</span>
-                </div>
-                <div class="infoCard" role="listitem">
-                  <strong>Venue</strong>
-                  <span>To be announced</span>
-                </div>
-              </div>
-
-              <div class="divider"></div>
-
-              <div class="cards3" role="list">
-                <div class="infoCard" role="listitem">
-                  <strong>Dress Code</strong>
-                  <span>Blue-themed (optional)</span>
-                </div>
-                <div class="infoCard" role="listitem">
-                  <strong>Programme</strong>
-                  <span>Thanksgiving • Tribute • Book launch • Prayer</span>
-                </div>
-                <div class="infoCard" role="listitem">
-                  <strong>Send Greetings</strong>
-                  <span>Use the buttons below to share wishes or enquiries.</span>
-                </div>
-              </div>
-
-              <div class="divider"></div>
-
-              <div class="hero__cta">
-                <a class="btn btn--primary" href="mailto:info@example.com?subject=Birthday%20%26%20Book%20Launch%20-%20Greetings">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="2"/>
-                    <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  Send a Message
-                </a>
-                <a class="btn" href="#top">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 5v14M12 5l-5 5M12 5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  Back to Top
-                </a>
-              </div>
-
-              <p class="muted" style="margin-top:14px">
-                Note: Replace <strong>info@example.com</strong> with the official contact email/phone for the event.
-              </p>
-            </div>
-          </article>
+        <div class="gItem reveal" data-title="2nd Book" data-img="data:image/webp;base64,UklGRgYaAABXRUJQVlA4IPoZAABwkgKdASq0BpoBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+          <img alt="2nd Book Cover" src="data:image/webp;base64,UklGRgYaAABXRUJQVlA4IPoZAABwkgKdASq0BpoBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
+          <div class="gLabel">2nd Book</div>
         </div>
-      </div>
-    </section>
 
-    <!-- Modal -->
-    <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image preview">
-      <div class="modal__panel" role="document">
-        <div class="modal__top">
-          <strong id="modalTitle">Preview</strong>
-          <button class="modal__close" id="modalClose" aria-label="Close preview">✕</button>
+        <div class="gItem reveal" data-title="3rd Book" data-img="data:image/webp;base64,UklGRlKaAABXRUJQVlA4IEyaAABwkgKdASq0BpkBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+          <img alt="3rd Book Cover" src="data:image/webp;base64,UklGRlKaAABXRUJQVlA4IEyaAABwkgKdASq0BpkBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
+          <div class="gLabel">3rd Book</div>
         </div>
-        <div class="modal__body">
-          <img id="modalImg" alt="Preview image" />
+
+        <div class="gItem reveal" data-title="4th Book" data-img="data:image/webp;base64,UklGRvQdAABXRUJQVlA4IOgdAABwkgKdASq0BpsBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+          <img alt="4th Book Cover" src="data:image/webp;base64,UklGRvQdAABXRUJQVlA4IOgdAABwkgKdASq0BpsBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
+          <div class="gLabel">4th Book</div>
         </div>
       </div>
     </div>
-
-  </main>
-
+  </section>
+  <!-- ====== FOOTER ====== -->
   <footer>
     <div class="container">
       <div class="foot">
-        <div class="brand">
-          <span class="brand__mark" aria-hidden="true"></span>
-          <span class="brand__text">
-            {esc(profile_title)}
-            <small>Birthday • Book Launch</small>
-          </span>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="mark" aria-hidden="true" style="width:32px;height:32px;border-radius:14px;"></span>
+            <div>
+              <div style="font-family:var(--serif); color: rgba(255,255,255,.88);">Pastor Omoniyi Oluwagbemiga Ayeni</div>
+              <div style="margin-top:2px;">Birthday Celebration &amp; Book Launch • POWER AS OF OLD</div>
+            </div>
+          </div>
         </div>
-        <small>© {esc(str(__import__('datetime').datetime.utcnow().year))} • Crafted with a blue-themed, modern aesthetic.</small>
+        <div style="max-width: 62ch;">
+          <div style="color:rgba(255,255,255,.80);">“I personally welcome you to experience this raw power of God as of old, as you read the book.”</div>
+          <div style="margin-top:8px;">© <span id="yr"></span> • Designed in a blue-themed modern aesthetic.</div>
+        </div>
       </div>
     </div>
   </footer>
 
+  <!-- ====== LIGHTBOX MODAL ====== -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Image preview">
+    <div class="modalBox">
+      <div class="modalTop">
+        <strong id="modalTitle">Preview</strong>
+        <button class="close" id="modalClose">Close</button>
+      </div>
+      <div class="modalImg"><img id="modalImg" alt="Preview" src="" /></div>
+    </div>
+  </div>
+
   <script>
-    (function() {{
-      const navBtn = document.getElementById('navBtn');
-      const navLinks = document.getElementById('navLinks');
+    // ====== Mobile Menu ======
+    const menuBtn = document.getElementById('menuBtn');
+    const navMenu = document.getElementById('navMenu');
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        const open = navMenu.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', String(open));
+      });
+    }
+    navMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navMenu.classList.remove('open');
+      menuBtn?.setAttribute('aria-expanded', 'false');
+    }));
 
-      function closeNav() {{
-        navLinks.classList.remove('is-open');
-        navBtn.setAttribute('aria-expanded', 'false');
-      }}
+    // ====== Active Nav Link on Scroll ======
+    const navLinks = Array.from(document.querySelectorAll('.links a')).filter(a => a.getAttribute('href')?.startsWith('#'));
+    const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
 
-      navBtn?.addEventListener('click', () => {{
-        const isOpen = navLinks.classList.toggle('is-open');
-        navBtn.setAttribute('aria-expanded', String(isOpen));
-      }});
+    const setActive = () => {
+      const y = window.scrollY + 120;
+      let idx = -1;
+      sections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= y) idx = i;
+      });
+      navLinks.forEach(l => l.classList.remove('active'));
+      if (idx >= 0) navLinks[idx].classList.add('active');
+    };
+    window.addEventListener('scroll', setActive, { passive: true });
+    setActive();
 
-      navLinks?.addEventListener('click', (e) => {{
-        const a = e.target.closest('a');
-        if (!a) return;
-        closeNav();
-      }});
+    // ====== Reveal on Scroll ======
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('show');
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    // ====== Lightbox Modal ======
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalClose = document.getElementById('modalClose');
 
-      // Scrollspy for nav highlighting
-      const sections = Array.from(document.querySelectorAll('main section[id]'));
-      const navAnchors = Array.from(navLinks.querySelectorAll('a'));
+    function openModal(title, img){
+      modalTitle.textContent = title || 'Preview';
+      modalImg.src = img;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modalImg.src = '';
+      document.body.style.overflow = '';
+    }
 
-      const map = new Map(navAnchors.map(a => [a.getAttribute('href')?.slice(1), a]));
-      const observer = new IntersectionObserver((entries) => {{
-        entries.forEach(entry => {{
-          if (!entry.isIntersecting) return;
-          const id = entry.target.getAttribute('id');
-          navAnchors.forEach(a => a.removeAttribute('aria-current'));
-          const active = map.get(id);
-          if (active) active.setAttribute('aria-current', 'page');
-        }});
-      }}, {{ root: null, threshold: 0.35 }});
+    document.querySelectorAll('[data-img]').forEach(el => {
+      el.addEventListener('click', () => {
+        openModal(el.getAttribute('data-title'), el.getAttribute('data-img'));
+      });
+    });
 
-      sections.forEach(sec => observer.observe(sec));
+    modalClose?.addEventListener('click', closeModal);
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
 
-      // Reveal on scroll
-      const reveals = document.querySelectorAll('.reveal');
-      const revealObs = new IntersectionObserver((entries) => {{
-        entries.forEach(entry => {{
-          if (entry.isIntersecting) {{
-            entry.target.classList.add('is-visible');
-            revealObs.unobserve(entry.target);
-          }}
-        }});
-      }}, {{ threshold: 0.14 }});
-      reveals.forEach(el => revealObs.observe(el));
-
-      // Modal for gallery
-      const modal = document.getElementById('modal');
-      const modalImg = document.getElementById('modalImg');
-      const modalTitle = document.getElementById('modalTitle');
-      const modalClose = document.getElementById('modalClose');
-      let lastFocused = null;
-
-      function openModal(src, title) {{
-        lastFocused = document.activeElement;
-        modalImg.src = src;
-        modalTitle.textContent = title || 'Preview';
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        modalClose.focus();
-      }}
-
-      function closeModal() {{
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        modalImg.src = '';
-        if (lastFocused && lastFocused.focus) lastFocused.focus();
-      }}
-
-      document.querySelectorAll('.gallery__item').forEach(item => {{
-        item.addEventListener('click', () => {{
-          const src = item.getAttribute('data-modal-img');
-          const title = item.getAttribute('data-modal-title');
-          openModal(src, title);
-        }});
-        item.addEventListener('keydown', (e) => {{
-          if (e.key === 'Enter' || e.key === ' ') {{
-            e.preventDefault();
-            item.click();
-          }}
-        }});
-        item.tabIndex = 0;
-        item.setAttribute('role','button');
-        item.setAttribute('aria-label', 'Open image preview');
-      }});
-
-      modalClose?.addEventListener('click', closeModal);
-      modal?.addEventListener('click', (e) => {{
-        if (e.target === modal) closeModal();
-      }});
-      document.addEventListener('keydown', (e) => {{
-        if (modal.getAttribute('aria-hidden') === 'false' && e.key === 'Escape') closeModal();
-      }});
-    }})();
+    // ====== Footer Year ======
+    document.getElementById('yr').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
-"""
-len(html_doc)
-
