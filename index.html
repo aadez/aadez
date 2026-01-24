@@ -595,16 +595,16 @@
 
         <aside class="sideCard reveal">
           <div class="sideTop">
-            <h3>Countdown to Celebration</h3>
-            <p>Set your event date/time below in the code (see <b>eventDate</b> in JavaScript).</p>
+            <h3>Event Date</h3>
+            <p>8th February, 2026</p>
           </div>
-          <div class="countdown" aria-label="Countdown">
-            <div class="timeBox"><strong id="dd">00</strong><span>Days</span></div>
-            <div class="timeBox"><strong id="hh">00</strong><span>Hours</span></div>
-            <div class="timeBox"><strong id="mm">00</strong><span>Minutes</span></div>
-            <div class="timeBox"><strong id="ss">00</strong><span>Seconds</span></div>
+          <div class="countdown" aria-label="Event date">
+            <div class="timeBox" style="grid-column:1/-1; padding:16px 12px;">
+              <strong style="font-size:20px;">8th February, 2026</strong>
+              <span>Celebration Date</span>
+            </div>
           </div>
-          <div class="note">Tip: if the date is in the past, the countdown will gracefully show <b>00</b>.</div>
+          <div class="note">We look forward to celebrating with you.</div>
         </aside>
       </div>
     </div>
@@ -1009,28 +1009,8 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-    // ====== Countdown (edit eventDate) ======
-    // Example: new Date('2026-02-20T10:00:00+01:00')
-    const eventDate = new Date('2026-02-08T10:00:00+01:00');
-    const pad2 = (n) => String(n).padStart(2, '0');
-
-    function tick(){
-      const now = new Date();
-      let diff = Math.max(0, eventDate - now);
-      const s = Math.floor(diff / 1000);
-      const d = Math.floor(s / 86400);
-      const h = Math.floor((s % 86400) / 3600);
-      const m = Math.floor((s % 3600) / 60);
-      const ss = s % 60;
-
-      document.getElementById('dd').textContent = pad2(d);
-      document.getElementById('hh').textContent = pad2(h);
-      document.getElementById('mm').textContent = pad2(m);
-      document.getElementById('ss').textContent = pad2(ss);
-    }
-    tick();
-    setInterval(tick, 1000);
+    // ====== Event Date (static) ======
+    // Countdown removed — this section now displays the event date only.
 
     // ====== Lightbox Modal ======
     const modal = document.getElementById('modal');
