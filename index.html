@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pastor Omoniyi Oluwagbemiga Ayeni — Birthday & Book Launch</title>
   <meta name="description" content="An elegant blue-themed website celebrating Pastor Solomon Omoniyi Oluwagbemiga Ayeni and the launch of his new book, POWER AS OF OLD." />
-  
   <style>
     /* ====== Design System ====== */
     :root{
@@ -20,9 +19,9 @@
       --card2: rgba(255,255,255,.08);
       --shadow: 0 18px 60px rgba(0,0,0,.35);
       --shadow2: 0 10px 30px rgba(0,0,0,.28);
-      --accent:#9fd4ff;
-      --accent2:#4aa3ff;
-      --gold:#f4d27a;
+      --accent:#9fd4ff;      /* soft ice-blue */
+      --accent2:#4aa3ff;     /* brighter blue */
+      --gold:#f4d27a;        /* warm accent */
       --radius: 18px;
       --radius2: 26px;
       --max: 1120px;
@@ -356,13 +355,20 @@
       aspect-ratio: 16/10;
       background: rgba(255,255,255,.03);
       border-bottom: 1px solid rgba(255,255,255,.10);
+
+      /* Helps letterboxing look intentional when we "contain" images */
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
+    /*  SHOW FULL IMAGE (NO CROP) */
     .profileMedia img{
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit:contain;          /* was cover */
       display:block;
       filter: contrast(1.02) saturate(1.02);
+      background: rgba(0,0,0,.15); /* subtle frame behind letterboxing */
     }
     .profileMedia:after{
       content:"";
@@ -371,6 +377,7 @@
       background:
         radial-gradient(600px 280px at 20% 15%, rgba(159,212,255,.22), transparent 58%),
         linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.35));
+      pointer-events:none;
     }
     .profileCaption{
       position:absolute;
@@ -423,13 +430,26 @@
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.05);
+      overflow:hidden;
       box-shadow: 0 16px 40px rgba(0,0,0,.30);
       transform-style: preserve-3d;
       transition: transform .25s ease;
+      cursor: zoom-in;
+
+      /* keeps consistent tile size */
+      aspect-ratio: 3 / 4;
     }
     .bookCard:hover{ transform: translateY(-3px) rotateX(2deg) rotateY(-3deg); }
-    /* FIX: make image sizing reliable */
-    .bookCard img{ width:100%; height:auto; display:block; }
+
+    /*  SHOW FULL IMAGE (NO CROP) */
+    .bookCard img{
+      width:100%;
+      height:100%;
+      object-fit:contain;          /* was cover */
+      display:block;
+      background: rgba(0,0,0,.15);
+    }
+
     .bookMeta{ padding: 18px 18px 16px; }
     .bookMeta h3{ margin:0; font-family: var(--serif); }
     .bookMeta p{ margin: 10px 0 0; color: var(--muted); font-size: 13px; }
@@ -458,9 +478,24 @@
       cursor: zoom-in;
       transition: transform .2s ease, border-color .2s ease;
       position:relative;
+
+      /*  consistent size without cropping */
+      aspect-ratio: 4 / 5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
     .gItem:hover{ transform: translateY(-3px); border-color: rgba(159,212,255,.30); }
-    .gItem img{ width:100%; height: 220px; object-fit:cover; display:block; }
+
+    /*  SHOW FULL IMAGE (NO CROP) */
+    .gItem img{
+      width:100%;
+      height:100%;
+      object-fit:contain;          /* was cover */
+      display:block;
+      background: rgba(0,0,0,.15);
+    }
+
     .gLabel{
       position:absolute;
       left: 10px; bottom: 10px;
@@ -509,7 +544,14 @@
     }
     .close:hover{ background: rgba(255,255,255,.12); }
     .modalImg{ background: rgba(0,0,0,.25); }
-    .modalImg img{ width:100%; height:auto; display:block; }
+
+    /*  Ensure full image in modal too */
+    .modalImg img{
+      width:100%;
+      height:auto;
+      display:block;
+      object-fit:contain;
+    }
 
     /* ====== Footer ====== */
     footer{
@@ -526,13 +568,9 @@
       flex-wrap:wrap;
     }
 
-    /* ====== Reveal Animations (FIXED) ======
-       Default: show content (so images always appear even if JS fails)
-       JS mode: hide then reveal
-    */
-    .reveal{ opacity:1; transform:none; }
-    html.js .reveal{ opacity:0; transform: translateY(10px); transition: .6s ease; }
-    html.js .reveal.show{ opacity:1; transform: translateY(0); }
+    /* ====== Reveal Animations ====== */
+    .reveal{ opacity:0; transform: translateY(10px); transition: .6s ease; }
+    .reveal.show{ opacity:1; transform: translateY(0); }
 
     /* ====== Responsive ====== */
     @media (max-width: 980px){
@@ -564,10 +602,10 @@
       .countdown{ grid-template-columns: 1fr 1fr; }
       .tlItem{ grid-template-columns: 1fr; }
       .gallery{ grid-template-columns: 1fr; }
+      .mockup{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
-
 <body>
   <!-- ====== NAV ====== -->
   <header class="topbar">
@@ -587,6 +625,7 @@
           <a href="#ministry">Ministry</a>
           <a href="#book">New Book</a>
           <a href="#gallery">Previous Books</a>
+          <a href="#event">Event</a>
         </nav>
 
         <button class="btn hamburger" id="menuBtn" aria-label="Open menu" aria-expanded="false">
@@ -600,6 +639,7 @@
         <a href="#ministry">Ministry</a>
         <a href="#book">New Book</a>
         <a href="#gallery">Previous Books</a>
+        <a href="#event">Event</a>
       </div>
     </div>
   </header>
@@ -624,7 +664,7 @@
 
           <div class="heroCtas">
             <a class="btn btnPrimary" href="#book">Explore the New Book</a>
-            <a class="btn" href="#gallery">View Previous Books</a>
+            <a class="btn" href="#event">View Event Details</a>
           </div>
         </div>
 
@@ -660,11 +700,10 @@
       <div class="grid2">
         <article class="card tileCard profileCard reveal">
           <div class="profileMedia">
-            <img alt="Pastor Omoniyi Oluwagbemiga Ayeni"
-     src="https://raw.githubusercontent.com/aadez/aadez/main/239366%20(1).jpg" />
-              loading="lazy"
-              decoding="async"
-              referrerpolicy="no-referrer"
+            <!-- ✅ Celebrant Image (RAW GitHub link) -->
+            <img
+              alt="Pastor Omoniyi Oluwagbemiga Ayeni"
+              src="https://raw.githubusercontent.com/aadez/aadez/main/239366%20(1).jpg"
             />
             <div class="profileCaption">
               <div>
@@ -674,7 +713,6 @@
               <span class="tag">Honouring a Legacy</span>
             </div>
           </div>
-
           <div class="cardInner bio">
             <p>
               A <b>Chartered Accountant</b> and a <b>Fellow of the Institute of Chartered Accountants of Nigeria (ICAN)</b>,
@@ -684,7 +722,7 @@
             </p>
             <p>
               His professional experience spans <b>about 38 years</b> across respected institutions including CRIN, PPFN, BSN,
-              IITA, UNFPA, and ARFH where he served as <b>Director, Finance &amp; Operations</b> before retiring from secular work.
+              IITA, UNFPA, and ARFH—where he served as <b>Director, Finance &amp; Operations</b> before retiring from secular work.
             </p>
             <p>
               Beyond his profession, he has served God from his secondary school days known for sound teaching, prayer,
@@ -731,7 +769,6 @@
               <span class="tag">1987 → 2025</span>
             </div>
           </div>
-
           <div class="timeline">
             <div class="tlItem"><div class="when">1987</div><div class="what">NYSC service in old Ondo State.</div></div>
             <div class="tlItem"><div class="when">1988–1991</div><div class="what">Payroll Officer, Cocoa Research Institute of Nigeria (CRIN).</div></div>
@@ -764,6 +801,7 @@
               <li><b>Olabisi Onabanjo University</b> — Masters in Christian Studies (Ethics), among the best in class.</li>
               <li><b>PhD</b> — presently rounding up the programme.</li>
             </ul>
+            <p class="miniHint">This combination of professional and spiritual formation reflects a life committed to both excellence and service.</p>
           </div>
         </article>
       </div>
@@ -801,7 +839,7 @@
               <span class="tag">The Word</span>
             </div>
             <p>
-              A sought-after teacher of Scripture, his ministry is known for clarity, depth, and practical application helping
+              A sought-after teacher of Scripture, his ministry is known for clarity, depth, and practical application—helping
               believers grow in faith and obedience.
             </p>
           </div>
@@ -823,37 +861,62 @@
     </div>
   </section>
 
-  <div class="bookWrap">
-  <!-- ONE IMAGE ONLY (click to zoom) -->
-  <article class="card tileCard reveal">
-    <div class="profileMedia"
-     data-title="POWER AS OF OLD — Book Cover"
-     data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%205.jpg"
-     style="border-bottom:none; aspect-ratio: 3/4; cursor: zoom-in;">
-  <img alt="POWER AS OF OLD — Book Cover"
-       src="https://raw.githubusercontent.com/aadez/aadez/main/book%205.jpg"
-       style="object-fit: contain; background: rgba(255,255,255,.03);" />
-  <div class="profileCaption">
-    <div>
-      <h3>POWER AS OF OLD</h3>
-      <small>Book Launch</small>
-    </div>
-    <span class="tag">Tap to Zoom</span>
-  </div>
-</div>
-
-  <!-- RIGHT: Nuggets -->
-  <article class="card tileCard reveal">
-    <div class="cardInner">
-      <div class="cardHeader">
-        <h3>Nuggets of Power</h3>
-        <span class="tag">Highlights</span>
+  <!-- ====== NEW BOOK ====== -->
+  <section id="book">
+    <div class="container">
+      <div class="sectionTitle reveal">
+        <div>
+          <h2>Book Launch: “POWER AS OF OLD”</h2>
+          <p>Front &amp; back cover mockup, the message of the book, and highlighted endorsements.</p>
+        </div>
       </div>
 
-      <p>
-        The book is enriched with testimonies, scripture-grounded teaching, and practical encouragement for believers
-        to move beyond abstract theology into Spirit-empowered living.
-      </p>
+      <div class="bookWrap">
+        <article class="card tileCard reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <span class="tag">Tap to Zoom</span>
+            </div>
+          </div>
+
+          <div class="mockup">
+            <!-- ✅ NEW BOOK IMAGE (RAW GitHub link) -->
+            <div class="bookCard"
+                 data-title="POWER AS OF OLD — Front Cover"
+                 data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%205.jpg">
+              <img alt="POWER AS OF OLD - Front"
+                   src="https://raw.githubusercontent.com/aadez/aadez/main/book%205.jpg" />
+            </div>
+
+            <!-- (kept your back cover placeholder; it will now show fully too, without cropping) -->
+            <div class="bookCard" data-title="POWER AS OF OLD — Back Cover" data-img="data:image/webp;base64,UklGRg4bAABXRUJQVlA4IPYaAABwkgKdASq0BpkBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+              <img alt="POWER AS OF OLD - Back" src="data:image/webp;base64,UklGRg4bAABXRUJQVlA4IPYaAABwkgKdASq0BpkBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
+            </div>
+          </div>
+
+          <div class="cardInner bookMeta">
+            <h3>About the Book</h3>
+            <p>
+              God’s power for miracles, signs, and wonders still exists today—just as in the Bible days. Jesus Christ,
+              the power of God, is the same yesterday, today, and forever.
+            </p>
+            <p>
+              <b>POWER AS OF OLD</b> invites readers to encounter God’s power in a fresh dimension, learn how to engage it for
+              personal wellbeing, and experience deliverance from bondage—through faith in Christ.
+            </p>
+          </div>
+        </article>
+
+        <article class="card tileCard reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Nuggets of Power</h3>
+              <span class="tag">Highlights</span>
+            </div>
+            <p>
+              The book is enriched with testimonies, scripture-grounded teaching, and practical encouragement for believers
+              to move beyond abstract theology into Spirit-empowered living.
+            </p>
 
             <div class="quote">
               <strong>Testimony:</strong> “God miraculously healed me… our God is powerful and available to heal all who come to believe in Him.”
@@ -870,7 +933,7 @@
               <br /><span style="color:var(--muted2)">— Professor Kehinde Obasola (Olabisi Onabanjo University, Ago-Iwoye)</span>
             </div>
 
-            <p class="miniHint">A blessed man.</p>
+            <p class="miniHint">Tap a cover above to open it in a full-screen view.</p>
           </div>
         </article>
       </div>
@@ -888,23 +951,23 @@
       </div>
 
       <div class="gallery">
-        <div class="gItem reveal" data-title="1st Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%201a.jpg">
-          <img alt="1st Book Cover" src="https://raw.githubusercontent.com/aadez/aadez/main/book%201a.jpg" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+        <div class="gItem reveal" data-title="1st Book" data-img="data:image/webp;base64,UklGRq4eAABXRUJQVlA4IKIeAABwkgKdASq0BpwBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+          <img alt="1st Book Cover" src="data:image/webp;base64,UklGRq4eAABXRUJQVlA4IKIeAABwkgKdASq0BpwBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
           <div class="gLabel">1st Book</div>
         </div>
 
-        <div class="gItem reveal" data-title="2nd Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%202.jpg">
-          <img alt="2nd Book Cover" src="https://raw.githubusercontent.com/aadez/aadez/main/book%202.jpg" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+        <div class="gItem reveal" data-title="2nd Book" data-img="data:image/webp;base64,UklGRgYaAABXRUJQVlA4IPoZAABwkgKdASq0BpoBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+          <img alt="2nd Book Cover" src="data:image/webp;base64,UklGRgYaAABXRUJQVlA4IPoZAABwkgKdASq0BpoBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
           <div class="gLabel">2nd Book</div>
         </div>
 
-        <div class="gItem reveal" data-title="3rd Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%203.jpg">
-          <img alt="3rd Book Cover" src="https://raw.githubusercontent.com/aadez/aadez/main/book%203.jpg" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+        <div class="gItem reveal" data-title="3rd Book" data-img="data:image/webp;base64,UklGRlKaAABXRUJQVlA4IEyaAABwkgKdASq0BpkBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+          <img alt="3rd Book Cover" src="data:image/webp;base64,UklGRlKaAABXRUJQVlA4IEyaAABwkgKdASq0BpkBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
           <div class="gLabel">3rd Book</div>
         </div>
 
-        <div class="gItem reveal" data-title="4th Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%204.jpg">
-          <img alt="4th Book Cover" src="https://raw.githubusercontent.com/aadez/aadez/main/book%204.jpg" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+        <div class="gItem reveal" data-title="4th Book" data-img="data:image/webp;base64,UklGRvQdAABXRUJQVlA4IOgdAABwkgKdASq0BpsBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==">
+          <img alt="4th Book Cover" src="data:image/webp;base64,UklGRvQdAABXRUJQVlA4IOgdAABwkgKdASq0BpsBPi0kq0wkIqGgqK2iI7i4gC1o6Y4kqA7Ih0v2eX7hU9l0D9x1q8C3QWvW9B8y9rP6yQ5uH8kq0fKX0rj7yqk2YcQd0vG2P1Dg8nYt9oZrR0c+V1TgG7Q3yqgYq0qTQJ4l1L9pXwVt8bT2m0Yk7kE5kF2p1Q6aQdYzX0p7jH0f7mGx1yFQp3w5h6k8HnYb8jFQ0Xl6m2w0qVx4l3QnN7qzG0tqGJb7Lw3wR3n4vG3hCwqV0mQwzX9oF0bWmQkq8l8w1vQZV0S4wV1bWbQbJ7j8uKf5Yh7q1rj2s8mM6y0c8b7c8b0o8vK0+gJb1hYkZ1fKx7n1b+Q8O5k6xwVf0TnYl2vS3s+8m3bQ3t3Vf5yVf6v+P8oS+8FfY9oZgD+Yzv7w2cJ9cXqg0v0uJw5zY1GmQy0wYj9Qkq2lJm3wq5iUoS0xVqv7sA5g7d7g9xH7m8p7H1p0t+oO3k7c2o0ZxGQAA==" />
           <div class="gLabel">4th Book</div>
         </div>
       </div>
@@ -944,9 +1007,6 @@
   </div>
 
   <script>
-    // Turn on JS styling (so reveal animations only apply when JS works)
-    document.documentElement.classList.add('js');
-
     // ====== Mobile Menu ======
     const menuBtn = document.getElementById('menuBtn');
     const navMenu = document.getElementById('navMenu');
@@ -956,15 +1016,13 @@
         menuBtn.setAttribute('aria-expanded', String(open));
       });
     }
-    if (navMenu) {
-      navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        navMenu.classList.remove('open');
-        if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
-      }));
-    }
+    navMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navMenu.classList.remove('open');
+      menuBtn?.setAttribute('aria-expanded', 'false');
+    }));
 
     // ====== Active Nav Link on Scroll ======
-    const navLinks = Array.from(document.querySelectorAll('.links a')).filter(a => (a.getAttribute('href') || '').startsWith('#'));
+    const navLinks = Array.from(document.querySelectorAll('.links a')).filter(a => a.getAttribute('href')?.startsWith('#'));
     const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
 
     const setActive = () => {
@@ -979,19 +1037,13 @@
     window.addEventListener('scroll', setActive, { passive: true });
     setActive();
 
-    // ====== Reveal on Scroll (with fallback) ======
-    const revealEls = document.querySelectorAll('.reveal');
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) e.target.classList.add('show');
-        });
-      }, { threshold: 0.12 });
-      revealEls.forEach(el => io.observe(el));
-    } else {
-      // Fallback: just show everything
-      revealEls.forEach(el => el.classList.add('show'));
-    }
+    // ====== Reveal on Scroll ======
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('show');
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
     // ====== Lightbox Modal ======
     const modal = document.getElementById('modal');
@@ -1017,12 +1069,10 @@
       });
     });
 
-    if (modalClose) modalClose.addEventListener('click', closeModal);
-    if (modal) {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-    }
+    modalClose?.addEventListener('click', closeModal);
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
