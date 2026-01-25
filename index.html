@@ -879,10 +879,23 @@
             </div>
           </div>
 
-        <div class="gItem reveal" data-title="New Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg">
-          <img alt="New Book Cover" src="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg" />
-          <div class="gLabel">New Book</div>
-        </div>
+        <div class="cardInner">
+  <div class="cardHeader">
+    <span class="tag">Tap to Zoom</span>
+  </div>
+
+  <div class="mockup">
+    <div class="bookCard reveal" data-title="New Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg">
+      <img
+        alt="New Book Cover"
+        src="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg"
+        loading="lazy"
+        decoding="async"
+        onerror="this.closest('.bookCard').style.border='1px solid rgba(244,210,122,.6)'; this.alt='Image failed to load (check the URL/filename on GitHub)';"
+      />
+    </div>
+  </div>
+</div>
 
           <div class="cardInner bookMeta">
             <h3>About the Book</h3>
