@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pastor Omoniyi Oluwagbemiga Ayeni — Birthday & Book Launch</title>
   <meta name="description" content="An elegant blue-themed website celebrating Pastor Solomon Omoniyi Oluwagbemiga Ayeni and the launch of his new book, POWER AS OF OLD." />
+
   <style>
     /* ====== Design System ====== */
     :root{
@@ -332,6 +333,22 @@
       flex-direction:column;
     }
 
+    .grid2 > .tileCard{ min-height: 300px; }
+    .grid3 > .tileCard{ min-height: 260px; }
+
+    .tileCard p{
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 9;
+      overflow: hidden;
+    }
+
+    @media (max-width: 520px){
+      .grid2 > .tileCard,
+      .grid3 > .tileCard{ min-height: unset; }
+      .tileCard p{ -webkit-line-clamp: unset; }
+    }
+
     /* ====== About / Profile ====== */
     .profileCard{ overflow:hidden; }
     .profileMedia{
@@ -340,7 +357,13 @@
       background: rgba(255,255,255,.03);
       border-bottom: 1px solid rgba(255,255,255,.10);
     }
-    .profileMedia img{ width:100%; height:100%; object-fit:cover; display:block; filter: contrast(1.02) saturate(1.02); }
+    .profileMedia img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter: contrast(1.02) saturate(1.02);
+    }
     .profileMedia:after{
       content:"";
       position:absolute;
@@ -348,9 +371,7 @@
       background:
         radial-gradient(600px 280px at 20% 15%, rgba(159,212,255,.22), transparent 58%),
         linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.35));
-      pointer-events:none;
     }
-
     .profileCaption{
       position:absolute;
       left: 16px;
@@ -409,10 +430,8 @@
       cursor: zoom-in;
     }
     .bookCard:hover{ transform: translateY(-3px) rotateX(2deg) rotateY(-3deg); }
-
-    /* ✅ FIX: don't force height:100% here */
+    /* FIX: make image sizing reliable */
     .bookCard img{ width:100%; height:auto; display:block; }
-
     .bookMeta{ padding: 18px 18px 16px; }
     .bookMeta h3{ margin:0; font-family: var(--serif); }
     .bookMeta p{ margin: 10px 0 0; color: var(--muted); font-size: 13px; }
@@ -509,9 +528,13 @@
       flex-wrap:wrap;
     }
 
-    /* ====== Reveal Animations ====== */
-    .reveal{ opacity:0; transform: translateY(10px); transition: .6s ease; }
-    .reveal.show{ opacity:1; transform: translateY(0); }
+    /* ====== Reveal Animations (FIXED) ======
+       Default: show content (so images always appear even if JS fails)
+       JS mode: hide then reveal
+    */
+    .reveal{ opacity:1; transform:none; }
+    html.js .reveal{ opacity:0; transform: translateY(10px); transition: .6s ease; }
+    html.js .reveal.show{ opacity:1; transform: translateY(0); }
 
     /* ====== Responsive ====== */
     @media (max-width: 980px){
@@ -566,7 +589,6 @@
           <a href="#ministry">Ministry</a>
           <a href="#book">New Book</a>
           <a href="#gallery">Previous Books</a>
-          <a href="#event">Event</a>
         </nav>
 
         <button class="btn hamburger" id="menuBtn" aria-label="Open menu" aria-expanded="false">
@@ -580,7 +602,6 @@
         <a href="#ministry">Ministry</a>
         <a href="#book">New Book</a>
         <a href="#gallery">Previous Books</a>
-        <a href="#event">Event</a>
       </div>
     </div>
   </header>
@@ -605,7 +626,7 @@
 
           <div class="heroCtas">
             <a class="btn btnPrimary" href="#book">Explore the New Book</a>
-            <a class="btn" href="#event">View Event Details</a>
+            <a class="btn" href="#gallery">View Previous Books</a>
           </div>
         </div>
 
@@ -641,8 +662,14 @@
       <div class="grid2">
         <article class="card tileCard profileCard reveal">
           <div class="profileMedia">
-            <!-- ✅ FIX: use relative path (put this file next to index.html) -->
-            <img alt="Pastor Omoniyi Oluwagbemiga Ayeni" src="./book%201a.jpg" loading="lazy" />
+            <!-- FIXED URL (raw + %20) -->
+            <img
+              alt="Pastor Omoniyi Oluwagbemiga Ayeni"
+              src="https://raw.githubusercontent.com/aadez/aadez/main/book%201a.jpg"
+              loading="lazy"
+              decoding="async"
+              referrerpolicy="no-referrer"
+            />
             <div class="profileCaption">
               <div>
                 <h3>Pastor Solomon Omoniyi Oluwagbemiga Ayeni</h3>
@@ -690,6 +717,116 @@
     </div>
   </section>
 
+  <!-- ====== JOURNEY ====== -->
+  <section id="journey">
+    <div class="container">
+      <div class="sectionTitle reveal">
+        <div>
+          <h2>Professional Journey</h2>
+          <p>A timeline of service across institutions marked by integrity, stewardship, and excellence.</p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <article class="card reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Career Timeline</h3>
+              <span class="tag">1987 → 2025</span>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <div class="tlItem"><div class="when">1987</div><div class="what">NYSC service in old Ondo State.</div></div>
+            <div class="tlItem"><div class="when">1988–1991</div><div class="what">Payroll Officer, Cocoa Research Institute of Nigeria (CRIN).</div></div>
+            <div class="tlItem"><div class="when">1991–1996</div><div class="what">Assistant Accountant → HQ Accountant, Planned Parenthood Federation of Nigeria (PPFN).</div></div>
+            <div class="tlItem"><div class="when">1996–2002</div><div class="what">Programme Accountant &amp; Finance/Admin. Associate, UNFPA.</div></div>
+            <div class="tlItem"><div class="when">2002–2006</div><div class="what">Head of Finance &amp; Assistant General Secretary, Bible Society of Nigeria (BSN).</div></div>
+            <div class="tlItem"><div class="when">2006–2007</div><div class="what">Corporate Finance &amp; Budget Manager, International Institute of Tropical Agriculture (IITA).</div></div>
+            <div class="tlItem"><div class="when">2007–2012</div><div class="what">Assistant General Manager (Finance), Femi Johnson &amp; Company Ltd. (Insurance Brokers).</div></div>
+            <div class="tlItem"><div class="when">2012–2014</div><div class="what">Returned to UNFPA as Programme Accountant &amp; Finance/Admin. Associate.</div></div>
+            <div class="tlItem"><div class="when">2014–2019</div><div class="what">Director of Finance &amp; Administration, USAID LOPIN-Region 1 (ARFH).</div></div>
+            <div class="tlItem"><div class="when">2020–2025</div><div class="what">Director, Finance &amp; Operations, USAID ICHSSA 2 (ARFH) — retired from secular work.</div></div>
+          </div>
+        </article>
+
+        <article class="card tileCard reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Education &amp; Formation</h3>
+              <span class="tag">Learning &amp; Calling</span>
+            </div>
+            <p>
+              With a strong foundation in accounting and finance, Pastor Ayeni pursued theological training that deepened
+              his ministry and teaching.
+            </p>
+            <ul class="bullet">
+              <li><b>Methodist High School, Ibadan</b> — Secondary education (1976–1981).</li>
+              <li><b>The Polytechnic, Ibadan</b> — OND/HND Accountancy (Upper Credit, 1987).</li>
+              <li><b>University of Ibadan</b> — MBA (Finance Option), 2000.</li>
+              <li><b>Immanuel College, Samonda, Ibadan</b> — Bachelors in Christian Theology (Best graduating student).</li>
+              <li><b>Olabisi Onabanjo University</b> — Masters in Christian Studies (Ethics), among the best in class.</li>
+              <li><b>PhD</b> — presently rounding up the programme.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== MINISTRY ====== -->
+  <section id="ministry">
+    <div class="container">
+      <div class="sectionTitle reveal">
+        <div>
+          <h2>Ministry &amp; Service</h2>
+          <p>A lifelong devotion to Christ—teaching, shepherding, and building faith communities.</p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <article class="card tileCard reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Early Leadership</h3>
+              <span class="tag">Foundations</span>
+            </div>
+            <p>
+              From his school years, Pastor Ayeni served with distinction, Chapel Prefect and school Organist at Methodist
+              High School, and Bible Study Officer in the Students Christian Movement (SCM).
+            </p>
+          </div>
+        </article>
+
+        <article class="card tileCard reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Teaching Grace</h3>
+              <span class="tag">The Word</span>
+            </div>
+            <p>
+              A sought-after teacher of Scripture, his ministry is known for clarity, depth, and practical application helping
+              believers grow in faith and obedience.
+            </p>
+          </div>
+        </article>
+
+        <article class="card tileCard reveal">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <h3>Pastoral Assignment</h3>
+              <span class="tag">The Apostolic Church</span>
+            </div>
+            <p>
+              He currently pastors the assembly at <b>Afonta</b> in Ibadan District of Ibadan Area of The Apostolic Church Nigeria
+              (LAWMNA Territory) to the glory of God.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- ====== NEW BOOK ====== -->
   <section id="book">
     <div class="container">
@@ -709,11 +846,16 @@
           </div>
 
           <div class="mockup" style="grid-template-columns: 1fr;">
-            <!-- ✅ FIX: use relative path for new book cover too -->
             <div class="bookCard"
                  data-title="POWER AS OF OLD — Cover"
-                 data-img="./book%205.jpg">
-              <img alt="POWER AS OF OLD - Cover" src="./book%205.jpg" loading="lazy" />
+                 data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%205.jpg">
+              <img
+                alt="POWER AS OF OLD - Cover"
+                src="https://raw.githubusercontent.com/aadez/aadez/main/book%205.jpg"
+                loading="lazy"
+                decoding="async"
+                referrerpolicy="no-referrer"
+              />
             </div>
           </div>
 
@@ -736,6 +878,7 @@
               <h3>Nuggets of Power</h3>
               <span class="tag">Highlights</span>
             </div>
+
             <p>
               The book is enriched with testimonies, scripture-grounded teaching, and practical encouragement for believers
               to move beyond abstract theology into Spirit-empowered living.
@@ -756,7 +899,7 @@
               <br /><span style="color:var(--muted2)">— Professor Kehinde Obasola (Olabisi Onabanjo University, Ago-Iwoye)</span>
             </div>
 
-            <p class="miniHint">Tap a cover above to open it in a full-screen view.</p>
+            <p class="miniHint">Tap the cover to open it in full-screen view.</p>
           </div>
         </article>
       </div>
@@ -774,23 +917,23 @@
       </div>
 
       <div class="gallery">
-        <div class="gItem reveal" data-title="1st Book" data-img="./book%201a.jpg">
-          <img alt="1st Book Cover" src="./book%201a.jpg" loading="lazy" />
+        <div class="gItem reveal" data-title="1st Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%201a.jpg">
+          <img alt="1st Book Cover" src="https://raw.githubusercontent.com/aadez/aadez/main/book%201a.jpg" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
           <div class="gLabel">1st Book</div>
         </div>
 
-        <div class="gItem reveal" data-title="2nd Book" data-img="./book%202.jpg">
-          <img alt="2nd Book Cover" src="./book%202.jpg" loading="lazy" />
+        <div class="gItem reveal" data-title="2nd Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%202.jpg">
+          <img alt="2nd Book Cover" src="https://raw.githubusercontent.com/aadez/aadez/main/book%202.jpg" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
           <div class="gLabel">2nd Book</div>
         </div>
 
-        <div class="gItem reveal" data-title="3rd Book" data-img="./book%203.jpg">
-          <img alt="3rd Book Cover" src="./book%203.jpg" loading="lazy" />
+        <div class="gItem reveal" data-title="3rd Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%203.jpg">
+          <img alt="3rd Book Cover" src="https://raw.githubusercontent.com/aadez/aadez/main/book%203.jpg" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
           <div class="gLabel">3rd Book</div>
         </div>
 
-        <div class="gItem reveal" data-title="4th Book" data-img="./book%204.jpg">
-          <img alt="4th Book Cover" src="./book%204.jpg" loading="lazy" />
+        <div class="gItem reveal" data-title="4th Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/book%204.jpg">
+          <img alt="4th Book Cover" src="https://raw.githubusercontent.com/aadez/aadez/main/book%204.jpg" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
           <div class="gLabel">4th Book</div>
         </div>
       </div>
@@ -830,6 +973,9 @@
   </div>
 
   <script>
+    // Turn on JS styling (so reveal animations only apply when JS works)
+    document.documentElement.classList.add('js');
+
     // ====== Mobile Menu ======
     const menuBtn = document.getElementById('menuBtn');
     const navMenu = document.getElementById('navMenu');
@@ -839,13 +985,15 @@
         menuBtn.setAttribute('aria-expanded', String(open));
       });
     }
-    navMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      navMenu.classList.remove('open');
-      menuBtn?.setAttribute('aria-expanded', 'false');
-    }));
+    if (navMenu) {
+      navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        navMenu.classList.remove('open');
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+      }));
+    }
 
     // ====== Active Nav Link on Scroll ======
-    const navLinks = Array.from(document.querySelectorAll('.links a')).filter(a => a.getAttribute('href')?.startsWith('#'));
+    const navLinks = Array.from(document.querySelectorAll('.links a')).filter(a => (a.getAttribute('href') || '').startsWith('#'));
     const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
 
     const setActive = () => {
@@ -860,13 +1008,19 @@
     window.addEventListener('scroll', setActive, { passive: true });
     setActive();
 
-    // ====== Reveal on Scroll ======
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('show');
-      });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    // ====== Reveal on Scroll (with fallback) ======
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) e.target.classList.add('show');
+        });
+      }, { threshold: 0.12 });
+      revealEls.forEach(el => io.observe(el));
+    } else {
+      // Fallback: just show everything
+      revealEls.forEach(el => el.classList.add('show'));
+    }
 
     // ====== Lightbox Modal ======
     const modal = document.getElementById('modal');
@@ -892,10 +1046,12 @@
       });
     });
 
-    modalClose?.addEventListener('click', closeModal);
-    modal?.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
