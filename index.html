@@ -569,8 +569,24 @@
     }
 
     /* ====== Reveal Animations ====== */
-    .reveal{ opacity:0; transform: translateY(10px); transition: .6s ease; }
-    .reveal.show{ opacity:1; transform: translateY(0); }
+.reveal{
+  opacity:0;
+  transform: translateY(10px);
+  transition: .6s ease;
+}
+.reveal.show{
+  opacity:1;
+  transform: translateY(0);
+}
+
+/* ====== Bulletproof stacking so overlays never hide content ====== */
+.tileCard{ position: relative; }
+.tileCard:before,
+.tileCard:after{ z-index: 0; }
+.tileCard .cardInner{ position: relative; z-index: 2; }
+
+/* Make sure the book cover sits above decorative overlays */
+.bookCard{ position: relative; z-index: 3; }
 
     /* ====== Responsive ====== */
     @media (max-width: 980px){
@@ -872,43 +888,42 @@
       </div>
 
       <div class="bookWrap">
-        <article class="card tileCard">
-          <div class="cardInner">
-            <div class="cardHeader">
-              <span class="tag">Tap to Zoom</span>
-            </div>
-          </div>
+     <article class="card tileCard">
+  <div class="cardInner">
+    <div class="cardHeader">
+      <span class="tag">Tap to Zoom</span>
+    </div>
 
-        <div class="cardInner">
-  <div class="cardHeader">
-    <span class="tag">Tap to Zoom</span>
-  </div>
+    <div class="mockup">
+      <div
+        class="bookCard"
+        data-title="New Book"
+        data-img="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg"
+      >
+        <img
+          alt="New Book Cover"
+          src="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg"
+          loading="lazy"
+          decoding="async"
+          referrerpolicy="no-referrer"
+          onerror="this.alt='Image failed to load (check URL/filename)'; this.style.display='none'; this.closest('.bookCard').style.display='grid'; this.closest('.bookCard').style.placeItems='center'; this.closest('.bookCard').innerHTML+='<div style=&quot;padding:12px;text-align:center;color:rgba(255,255,255,.85);font-size:12px;&quot;>Image failed to load.<br/>Check the GitHub raw URL.</div>';"
+        />
+      </div>
 
-  <div class="mockup">
-    <div class="bookCard reveal" data-title="New Book" data-img="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg">
-      <img
-        alt="New Book Cover"
-        src="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg"
-        loading="lazy"
-        decoding="async"
-        onerror="this.closest('.bookCard').style.border='1px solid rgba(244,210,122,.6)'; this.alt='Image failed to load (check the URL/filename on GitHub)';"
-      />
+      <div class="bookMeta">
+        <h3>About the Book</h3>
+        <p>
+          God’s power for miracles, signs, and wonders still exists today just as in the Bible days. Jesus Christ,
+          the power of God, is the same yesterday, today, and forever.
+        </p>
+        <p>
+          <b>POWER AS OF OLD</b> invites readers to encounter God’s power in a fresh dimension, learn how to engage it for
+          personal wellbeing, and experience deliverance from bondage through faith in Christ.
+        </p>
+      </div>
     </div>
   </div>
-</div>
-
-          <div class="cardInner bookMeta">
-            <h3>About the Book</h3>
-            <p>
-              God’s power for miracles, signs, and wonders still exists today just as in the Bible days. Jesus Christ,
-              the power of God, is the same yesterday, today, and forever.
-            </p>
-            <p>
-              <b>POWER AS OF OLD</b> invites readers to encounter God’s power in a fresh dimension, learn how to engage it for
-              personal wellbeing, and experience deliverance from bondage through faith in Christ.
-            </p>
-          </div>
-        </article>
+</article>
 
         <article class="card tileCard">
           <div class="cardInner">
