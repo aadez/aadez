@@ -6,25 +6,32 @@
   <title>Pastor Omoniyi Oluwagbemiga Ayeni — Birthday & Book Launch</title>
   <meta name="description" content="An elegant blue-themed website celebrating Pastor Solomon Omoniyi Oluwagbemiga Ayeni and the launch of his new book, POWER AS OF OLD." />
   <style>
-    /* ====== Design System ====== */
+    /* ====== BRIGHT BLUE THEME (EVERYTHING LIGHTER) ====== */
     :root{
-      /* ✅ BRIGHTER BLUE THEME (less dark, still elegant) */
-      --bg0:#0b2b52;   /* brighter navy */
-      --bg1:#0f3b73;   /* rich blue */
-      --bg2:#155aa6;   /* vibrant blue base */
+      /* ✅ Much brighter background blues */
+      --bg0:#2f8cff;   /* bright sky-blue */
+      --bg1:#1c6fe6;   /* vivid blue */
+      --bg2:#0f4fbf;   /* deep but still bright blue */
 
-      --ink:#eaf2ff;
-      --muted: rgba(234,242,255,.76);
-      --muted2: rgba(234,242,255,.62);
-      --line: rgba(255,255,255,.14);
-      --card: rgba(255,255,255,.07);
-      --card2: rgba(255,255,255,.09);
-      --shadow: 0 18px 60px rgba(0,0,0,.28);
-      --shadow2: 0 10px 30px rgba(0,0,0,.22);
+      /* ✅ Keep text readable on bright blues */
+      --ink:#f5fbff;
+      --muted: rgba(245,251,255,.86);
+      --muted2: rgba(245,251,255,.72);
 
-      --accent:#bfe7ff;      /* lighter ice-blue */
-      --accent2:#55b2ff;     /* brighter blue */
-      --gold:#f4d27a;        /* warm accent */
+      /* ✅ Lighter borders and surfaces */
+      --line: rgba(255,255,255,.22);
+      --card: rgba(255,255,255,.14);
+      --card2: rgba(255,255,255,.18);
+
+      /* ✅ Softer shadows (because background is bright) */
+      --shadow: 0 18px 55px rgba(0,0,0,.18);
+      --shadow2: 0 10px 28px rgba(0,0,0,.14);
+
+      /* ✅ Brighter accents */
+      --accent:#d9f2ff;   /* very light icy blue */
+      --accent2:#7fd0ff;  /* bright cyan-blue */
+      --gold:#ffd36a;     /* warm accent (kept) */
+
       --radius: 18px;
       --radius2: 26px;
       --max: 1120px;
@@ -40,11 +47,13 @@
       color:var(--ink);
       font-family: var(--sans);
       line-height:1.55;
+
+      /* ✅ Super bright blue background with airy glow */
       background:
-        radial-gradient(1200px 700px at 20% -10%, rgba(79,172,254,.28), transparent 60%),
-        radial-gradient(900px 600px at 90% 0%, rgba(191,231,255,.18), transparent 55%),
-        radial-gradient(1200px 700px at 60% 120%, rgba(244,210,122,.12), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 35%, var(--bg2));
+        radial-gradient(1200px 700px at 18% -10%, rgba(255,255,255,.30), transparent 60%),
+        radial-gradient(900px 600px at 92% 0%, rgba(217,242,255,.35), transparent 55%),
+        radial-gradient(1200px 700px at 55% 120%, rgba(255,211,106,.18), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 40%, var(--bg2));
       overflow-x:hidden;
     }
 
@@ -57,8 +66,9 @@
       top:0;
       z-index:50;
       backdrop-filter: blur(14px);
-      /* ✅ slightly lighter glass so it doesn't feel heavy */
-      background: linear-gradient(180deg, rgba(11,43,82,.78), rgba(11,43,82,.42));
+
+      /* ✅ Much brighter glass nav */
+      background: linear-gradient(180deg, rgba(34,126,255,.72), rgba(34,126,255,.42));
       border-bottom:1px solid var(--line);
     }
     .nav{
@@ -78,10 +88,10 @@
       width:38px; height:38px;
       border-radius: 14px;
       background:
-        radial-gradient(circle at 30% 30%, rgba(191,231,255,.98), rgba(85,178,255,.26) 55%, rgba(244,210,122,.20) 90%),
-        linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.20);
-      box-shadow: 0 12px 35px rgba(0,0,0,.22);
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(127,208,255,.45) 55%, rgba(255,211,106,.22) 90%),
+        linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.34);
+      box-shadow: 0 12px 28px rgba(0,0,0,.16);
     }
     .brand h1{
       font-family: var(--serif);
@@ -105,22 +115,34 @@
       border: 1px solid transparent;
       transition: .22s ease;
     }
-    .links a:hover{ color: var(--ink); border-color: rgba(255,255,255,.16); background: rgba(255,255,255,.06); }
-    .links a.active{ color: var(--ink); border-color: rgba(191,231,255,.38); background: rgba(191,231,255,.14); }
+    .links a:hover{
+      color: var(--ink);
+      border-color: rgba(255,255,255,.28);
+      background: rgba(255,255,255,.12);
+    }
+    .links a.active{
+      color: var(--ink);
+      border-color: rgba(217,242,255,.55);
+      background: rgba(217,242,255,.18);
+    }
 
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
       gap:10px;
       padding: 10px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: linear-gradient(135deg, rgba(85,178,255,.26), rgba(255,255,255,.07));
+      border: 1px solid rgba(255,255,255,.28);
+      background: linear-gradient(135deg, rgba(127,208,255,.40), rgba(255,255,255,.12));
       box-shadow: var(--shadow2);
       transition: transform .18s ease, background .25s ease, border-color .25s ease;
       font-size: 13px;
       white-space: nowrap;
     }
-    .btn:hover{ transform: translateY(-1px); border-color: rgba(191,231,255,.40); background: linear-gradient(135deg, rgba(85,178,255,.32), rgba(255,255,255,.09)); }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(217,242,255,.60);
+      background: linear-gradient(135deg, rgba(127,208,255,.50), rgba(255,255,255,.16));
+    }
 
     .hamburger{ display:none; }
 
@@ -135,11 +157,11 @@
 
     .heroCard{
       border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.28);
       background:
-        radial-gradient(900px 500px at 10% 0%, rgba(191,231,255,.22), transparent 55%),
-        radial-gradient(900px 600px at 100% 20%, rgba(85,178,255,.16), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+        radial-gradient(900px 520px at 10% 0%, rgba(255,255,255,.22), transparent 55%),
+        radial-gradient(900px 620px at 100% 20%, rgba(217,242,255,.30), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.10));
       box-shadow: var(--shadow);
       position:relative;
       overflow:hidden;
@@ -150,10 +172,10 @@
       position:absolute;
       inset:-2px;
       background:
-        radial-gradient(600px 400px at 10% 30%, rgba(244,210,122,.12), transparent 55%),
-        radial-gradient(600px 400px at 90% 10%, rgba(191,231,255,.12), transparent 55%);
+        radial-gradient(600px 400px at 10% 30%, rgba(255,211,106,.20), transparent 55%),
+        radial-gradient(600px 400px at 90% 10%, rgba(217,242,255,.22), transparent 55%);
       pointer-events:none;
-      opacity:.9;
+      opacity:.95;
     }
 
     .kicker{
@@ -162,14 +184,18 @@
       gap:10px;
       padding: 7px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(244,210,122,.30);
-      background: rgba(244,210,122,.12);
-      color: rgba(255,255,255,.92);
+      border: 1px solid rgba(255,211,106,.55);
+      background: rgba(255,211,106,.18);
+      color: rgba(255,255,255,.96);
       font-size: 12px;
       position:relative;
       z-index:1;
     }
-    .dot{ width:8px; height:8px; border-radius:999px; background: var(--gold); box-shadow: 0 0 0 4px rgba(244,210,122,.16); }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--gold);
+      box-shadow: 0 0 0 4px rgba(255,211,106,.22);
+    }
 
     .heroTitle{
       font-family: var(--serif);
@@ -179,6 +205,7 @@
       position:relative;
       z-index:1;
       letter-spacing:.2px;
+      text-shadow: 0 8px 26px rgba(0,0,0,.12);
     }
 
     .heroSub{
@@ -201,29 +228,29 @@
     .pill{
       padding: 9px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.26);
+      background: rgba(255,255,255,.12);
       color: var(--muted);
       font-size: 12px;
     }
 
     .heroCtas{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 18px; position:relative; z-index:1; }
     .btnPrimary{
-      background: linear-gradient(135deg, rgba(85,178,255,.48), rgba(244,210,122,.18));
-      border-color: rgba(191,231,255,.40);
+      background: linear-gradient(135deg, rgba(127,208,255,.62), rgba(255,211,106,.22));
+      border-color: rgba(217,242,255,.62);
     }
 
     .sideCard{
       border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.26);
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.10));
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
     }
     .sideTop{
       padding: 22px 22px 16px;
-      border-bottom: 1px solid rgba(255,255,255,.12);
+      border-bottom: 1px solid rgba(255,255,255,.22);
     }
     .sideTop h3{ margin:0; font-family: var(--serif); letter-spacing:.2px; }
     .sideTop p{ margin: 6px 0 0; color: var(--muted); font-size: 13px; }
@@ -236,10 +263,10 @@
     }
     .timeBox{
       border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.28);
       background:
-        radial-gradient(500px 220px at 20% 10%, rgba(191,231,255,.20), transparent 60%),
-        rgba(255,255,255,.06);
+        radial-gradient(500px 220px at 20% 10%, rgba(255,255,255,.22), transparent 60%),
+        rgba(255,255,255,.12);
       padding: 12px 10px;
       text-align:center;
     }
@@ -266,6 +293,7 @@
       font-family: var(--serif);
       font-size: 22px;
       letter-spacing:.25px;
+      text-shadow: 0 8px 26px rgba(0,0,0,.10);
     }
     .sectionTitle p{ margin:0; color: var(--muted2); font-size: 13px; max-width: 60ch; }
 
@@ -274,10 +302,10 @@
 
     .card{
       border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.26);
       background:
-        radial-gradient(700px 260px at 15% 10%, rgba(191,231,255,.14), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+        radial-gradient(700px 260px at 15% 10%, rgba(255,255,255,.22), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.10));
       box-shadow: var(--shadow2);
       overflow:hidden;
       position:relative;
@@ -287,19 +315,19 @@
       position:absolute;
       inset:0;
       pointer-events:none;
-      background: linear-gradient(180deg, transparent, rgba(0,0,0,.10));
-      opacity:.50;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,.08));
+      opacity:.45;
     }
     .cardInner{ position:relative; z-index:1; padding: 18px 18px 16px; }
 
     .cardHeader{ display:flex; align-items:flex-start; justify-content:space-between; gap: 12px; margin-bottom: 10px; }
     .tag{
       font-size: 11px;
-      color: rgba(255,255,255,.88);
+      color: rgba(255,255,255,.95);
       padding: 7px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(191,231,255,.30);
-      background: rgba(191,231,255,.12);
+      border: 1px solid rgba(217,242,255,.62);
+      background: rgba(217,242,255,.20);
       white-space:nowrap;
     }
 
@@ -309,22 +337,22 @@
     /* ====== TILE LOOK (match HERO boxes) ====== */
     .tileCard{
       border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.28);
       background:
-        radial-gradient(900px 520px at 10% 0%, rgba(191,231,255,.22), transparent 55%),
-        radial-gradient(900px 620px at 100% 15%, rgba(85,178,255,.16), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.095), rgba(255,255,255,.045));
+        radial-gradient(900px 520px at 10% 0%, rgba(255,255,255,.22), transparent 55%),
+        radial-gradient(900px 620px at 100% 15%, rgba(217,242,255,.30), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.10));
       box-shadow: var(--shadow);
     }
-    .tileCard:after{ opacity:.35; }
+    .tileCard:after{ opacity:.30; }
     .tileCard:before{
       content:"";
       position:absolute;
       inset:-2px;
       background:
-        radial-gradient(620px 420px at 15% 35%, rgba(244,210,122,.12), transparent 55%),
-        radial-gradient(520px 380px at 85% 10%, rgba(191,231,255,.12), transparent 55%);
-      opacity:.9;
+        radial-gradient(620px 420px at 15% 35%, rgba(255,211,106,.18), transparent 55%),
+        radial-gradient(520px 380px at 85% 10%, rgba(217,242,255,.20), transparent 55%);
+      opacity:.95;
       pointer-events:none;
     }
     .tileCard .cardInner{
@@ -357,9 +385,8 @@
     .profileMedia{
       position:relative;
       aspect-ratio: 16/10;
-      background: rgba(255,255,255,.03);
-      border-bottom: 1px solid rgba(255,255,255,.12);
-
+      background: rgba(255,255,255,.08);
+      border-bottom: 1px solid rgba(255,255,255,.22);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -369,16 +396,16 @@
       height:100%;
       object-fit:contain;
       display:block;
-      filter: contrast(1.02) saturate(1.02);
-      background: rgba(0,0,0,.12);
+      filter: contrast(1.02) saturate(1.03);
+      background: rgba(0,0,0,.08);
     }
     .profileMedia:after{
       content:"";
       position:absolute;
       inset:0;
       background:
-        radial-gradient(600px 280px at 20% 15%, rgba(191,231,255,.26), transparent 58%),
-        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.30));
+        radial-gradient(600px 280px at 20% 15%, rgba(255,255,255,.18), transparent 58%),
+        linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.18));
       pointer-events:none;
     }
     .profileCaption{
@@ -393,7 +420,7 @@
       gap: 10px;
     }
     .profileCaption h3{ margin:0; font-family: var(--serif); letter-spacing:.2px; }
-    .profileCaption small{ color: rgba(255,255,255,.82); }
+    .profileCaption small{ color: rgba(255,255,255,.88); }
 
     .bio{ color: var(--muted); font-size: 13.5px; }
     .bio p{ margin: 10px 0 0; }
@@ -413,10 +440,10 @@
       grid-template-columns: 110px 1fr;
       gap: 14px;
       padding: 12px 0;
-      border-bottom: 1px dashed rgba(255,255,255,.16);
+      border-bottom: 1px dashed rgba(255,255,255,.26);
     }
     .tlItem:last-child{ border-bottom:none; padding-bottom: 0; }
-    .tlItem .when{ color: rgba(244,210,122,.95); font-weight:700; font-size: 12px; letter-spacing:.3px; }
+    .tlItem .when{ color: rgba(255,211,106,.95); font-weight:700; font-size: 12px; letter-spacing:.3px; }
     .tlItem .what{ color: var(--muted); font-size: 13px; }
 
     /* ====== Book Launch ====== */
@@ -430,14 +457,15 @@
     }
     .bookCard{
       border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.28);
+      background: rgba(255,255,255,.12);
       overflow:hidden;
-      box-shadow: 0 16px 40px rgba(0,0,0,.26);
+      box-shadow: 0 16px 36px rgba(0,0,0,.16);
       transform-style: preserve-3d;
       transition: transform .25s ease;
       cursor: zoom-in;
       aspect-ratio: 3 / 4;
+      position: relative; z-index: 3;
     }
     .bookCard:hover{ transform: translateY(-3px) rotateX(2deg) rotateY(-3deg); }
     .bookCard img{
@@ -445,7 +473,7 @@
       height:100%;
       object-fit:contain;
       display:block;
-      background: rgba(0,0,0,.12);
+      background: rgba(0,0,0,.08);
     }
 
     .bookMeta{ padding: 18px 18px 16px; }
@@ -456,21 +484,21 @@
       margin-top: 12px;
       padding: 12px 14px;
       border-radius: 16px;
-      border: 1px solid rgba(244,210,122,.22);
-      background: rgba(244,210,122,.10);
-      color: rgba(255,255,255,.90);
+      border: 1px solid rgba(255,211,106,.55);
+      background: rgba(255,211,106,.18);
+      color: rgba(255,255,255,.92);
       font-size: 13px;
     }
-    .quote strong{ color: rgba(244,210,122,.98); }
+    .quote strong{ color: rgba(255,211,106,.98); }
 
     /* ====== Gallery ====== */
     .gallery{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .gItem{
       border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.28);
       background:
-        radial-gradient(700px 260px at 15% 10%, rgba(191,231,255,.16), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+        radial-gradient(700px 260px at 15% 10%, rgba(255,255,255,.20), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.10));
       overflow:hidden;
       box-shadow: var(--shadow);
       cursor: zoom-in;
@@ -481,13 +509,13 @@
       align-items:center;
       justify-content:center;
     }
-    .gItem:hover{ transform: translateY(-3px); border-color: rgba(191,231,255,.34); }
+    .gItem:hover{ transform: translateY(-3px); border-color: rgba(217,242,255,.70); }
     .gItem img{
       width:100%;
       height:100%;
       object-fit:contain;
       display:block;
-      background: rgba(0,0,0,.12);
+      background: rgba(0,0,0,.08);
     }
 
     .gLabel{
@@ -495,19 +523,18 @@
       left: 10px; bottom: 10px;
       padding: 7px 10px;
       border-radius: 999px;
-      /* ✅ lighter label background */
-      background: rgba(11,43,82,.48);
-      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(35,120,255,.52);
+      border: 1px solid rgba(255,255,255,.28);
       backdrop-filter: blur(10px);
       font-size: 12px;
-      color: rgba(255,255,255,.90);
+      color: rgba(255,255,255,.92);
     }
 
     /* ====== Modal (Lightbox) ====== */
     .modal{
       position:fixed;
       inset:0;
-      background: rgba(0,0,0,.58);
+      background: rgba(0,0,0,.52);
       display:none;
       align-items:center;
       justify-content:center;
@@ -518,28 +545,34 @@
     .modalBox{
       width:min(980px, 100%);
       border-radius: 22px;
-      border: 1px solid rgba(255,255,255,.20);
-      /* ✅ lighter modal glass */
-      background: rgba(11,43,82,.56);
+      border: 1px solid rgba(255,255,255,.28);
+      background: rgba(35,120,255,.52);
       backdrop-filter: blur(16px);
-      box-shadow: 0 30px 90px rgba(0,0,0,.52);
+      box-shadow: 0 30px 80px rgba(0,0,0,.44);
       overflow:hidden;
     }
-    .modalTop{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.14); }
+    .modalTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.22);
+    }
     .modalTop strong{ font-family: var(--serif); letter-spacing:.2px; }
     .close{
       appearance:none;
       border:none;
-      background: rgba(255,255,255,.10);
+      background: rgba(255,255,255,.14);
       color: var(--ink);
       border-radius: 999px;
       padding: 8px 12px;
       cursor:pointer;
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.24);
       transition: .2s ease;
     }
-    .close:hover{ background: rgba(255,255,255,.14); }
-    .modalImg{ background: rgba(0,0,0,.22); }
+    .close:hover{ background: rgba(255,255,255,.18); }
+    .modalImg{ background: rgba(0,0,0,.18); }
     .modalImg img{
       width:100%;
       height:auto;
@@ -550,9 +583,10 @@
     /* ====== Footer ====== */
     footer{
       padding: 34px 0 44px;
-      border-top: 1px solid rgba(255,255,255,.12);
+      border-top: 1px solid rgba(255,255,255,.22);
       color: var(--muted2);
       font-size: 13px;
+      background: rgba(255,255,255,.08);
     }
     .foot{
       display:flex;
@@ -571,7 +605,6 @@
     .tileCard:before,
     .tileCard:after{ z-index: 0; }
     .tileCard .cardInner{ position: relative; z-index: 2; }
-    .bookCard{ position: relative; z-index: 3; }
 
     /* ====== Responsive ====== */
     @media (max-width: 980px){
@@ -591,12 +624,12 @@
         display:block;
         padding: 12px 10px;
         border-radius: 14px;
-        border: 1px solid rgba(255,255,255,.12);
-        background: rgba(255,255,255,.05);
+        border: 1px solid rgba(255,255,255,.24);
+        background: rgba(255,255,255,.12);
         margin-top: 10px;
         color: var(--muted);
       }
-      .navMenu a:hover{ color: var(--ink); border-color: rgba(191,231,255,.28); }
+      .navMenu a:hover{ color: var(--ink); border-color: rgba(217,242,255,.70); }
     }
 
     @media (max-width: 520px){
@@ -890,7 +923,7 @@
                   loading="lazy"
                   decoding="async"
                   referrerpolicy="no-referrer"
-                  onerror="this.alt='Image failed to load (check URL/filename)'; this.style.display='none'; this.closest('.bookCard').style.display='grid'; this.closest('.bookCard').style.placeItems='center'; this.closest('.bookCard').innerHTML+='<div style=&quot;padding:12px;text-align:center;color:rgba(255,255,255,.85);font-size:12px;&quot;>Image failed to load.<br/>Check the GitHub raw URL.</div>';"
+                  onerror="this.alt='Image failed to load (check URL/filename)'; this.style.display='none'; this.closest('.bookCard').style.display='grid'; this.closest('.bookCard').style.placeItems='center'; this.closest('.bookCard').innerHTML+='<div style=&quot;padding:12px;text-align:center;color:rgba(255,255,255,.95);font-size:12px;&quot;>Image failed to load.<br/>Check the GitHub raw URL.</div>';"
                 />
               </div>
 
@@ -984,13 +1017,13 @@
           <div style="display:flex; align-items:center; gap:10px;">
             <span class="mark" aria-hidden="true" style="width:32px;height:32px;border-radius:14px;"></span>
             <div>
-              <div style="font-family:var(--serif); color: rgba(255,255,255,.88);">Pastor Omoniyi Oluwagbemiga Ayeni</div>
+              <div style="font-family:var(--serif); color: rgba(255,255,255,.92);">Pastor Omoniyi Oluwagbemiga Ayeni</div>
               <div style="margin-top:2px;">Birthday Celebration &amp; Book Launch • POWER AS OF OLD</div>
             </div>
           </div>
         </div>
         <div style="max-width: 62ch;">
-          <div style="color:rgba(255,255,255,.80);">I personally welcome you to experience this raw power of God as of old, as you read the book.</div>
+          <div style="color:rgba(255,255,255,.86);">I personally welcome you to experience this raw power of God as of old, as you read the book.</div>
           <div style="margin-top:8px;">© <span id="yr"></span> • You will be Impacted.</div>
         </div>
       </div>
