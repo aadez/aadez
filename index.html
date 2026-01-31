@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -8,19 +8,22 @@
   <style>
     /* ====== Design System ====== */
     :root{
-      --bg0:#061528;
-      --bg1:#081d35;
-      --bg2:#0b2b52;
+      /* ✅ BRIGHTER BLUE THEME (less dark, still elegant) */
+      --bg0:#0b2b52;   /* brighter navy */
+      --bg1:#0f3b73;   /* rich blue */
+      --bg2:#155aa6;   /* vibrant blue base */
+
       --ink:#eaf2ff;
-      --muted: rgba(234,242,255,.72);
-      --muted2: rgba(234,242,255,.58);
-      --line: rgba(255,255,255,.12);
-      --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.08);
-      --shadow: 0 18px 60px rgba(0,0,0,.35);
-      --shadow2: 0 10px 30px rgba(0,0,0,.28);
-      --accent:#9fd4ff;      /* soft ice-blue */
-      --accent2:#4aa3ff;     /* brighter blue */
+      --muted: rgba(234,242,255,.76);
+      --muted2: rgba(234,242,255,.62);
+      --line: rgba(255,255,255,.14);
+      --card: rgba(255,255,255,.07);
+      --card2: rgba(255,255,255,.09);
+      --shadow: 0 18px 60px rgba(0,0,0,.28);
+      --shadow2: 0 10px 30px rgba(0,0,0,.22);
+
+      --accent:#bfe7ff;      /* lighter ice-blue */
+      --accent2:#55b2ff;     /* brighter blue */
       --gold:#f4d27a;        /* warm accent */
       --radius: 18px;
       --radius2: 26px;
@@ -38,9 +41,9 @@
       font-family: var(--sans);
       line-height:1.55;
       background:
-        radial-gradient(1200px 700px at 20% -10%, rgba(79,172,254,.22), transparent 60%),
-        radial-gradient(900px 600px at 90% 0%, rgba(159,212,255,.12), transparent 55%),
-        radial-gradient(1200px 700px at 60% 120%, rgba(244,210,122,.10), transparent 60%),
+        radial-gradient(1200px 700px at 20% -10%, rgba(79,172,254,.28), transparent 60%),
+        radial-gradient(900px 600px at 90% 0%, rgba(191,231,255,.18), transparent 55%),
+        radial-gradient(1200px 700px at 60% 120%, rgba(244,210,122,.12), transparent 60%),
         linear-gradient(180deg, var(--bg0), var(--bg1) 35%, var(--bg2));
       overflow-x:hidden;
     }
@@ -54,7 +57,8 @@
       top:0;
       z-index:50;
       backdrop-filter: blur(14px);
-      background: linear-gradient(180deg, rgba(6,21,40,.85), rgba(6,21,40,.55));
+      /* ✅ slightly lighter glass so it doesn't feel heavy */
+      background: linear-gradient(180deg, rgba(11,43,82,.78), rgba(11,43,82,.42));
       border-bottom:1px solid var(--line);
     }
     .nav{
@@ -74,10 +78,10 @@
       width:38px; height:38px;
       border-radius: 14px;
       background:
-        radial-gradient(circle at 30% 30%, rgba(159,212,255,.95), rgba(74,163,255,.2) 55%, rgba(244,210,122,.18) 90%),
-        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-      border: 1px solid rgba(255,255,255,.18);
-      box-shadow: 0 12px 35px rgba(0,0,0,.28);
+        radial-gradient(circle at 30% 30%, rgba(191,231,255,.98), rgba(85,178,255,.26) 55%, rgba(244,210,122,.20) 90%),
+        linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.20);
+      box-shadow: 0 12px 35px rgba(0,0,0,.22);
     }
     .brand h1{
       font-family: var(--serif);
@@ -101,22 +105,22 @@
       border: 1px solid transparent;
       transition: .22s ease;
     }
-    .links a:hover{ color: var(--ink); border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.05); }
-    .links a.active{ color: var(--ink); border-color: rgba(159,212,255,.35); background: rgba(159,212,255,.12); }
+    .links a:hover{ color: var(--ink); border-color: rgba(255,255,255,.16); background: rgba(255,255,255,.06); }
+    .links a.active{ color: var(--ink); border-color: rgba(191,231,255,.38); background: rgba(191,231,255,.14); }
 
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
       gap:10px;
       padding: 10px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: linear-gradient(135deg, rgba(74,163,255,.22), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.18);
+      background: linear-gradient(135deg, rgba(85,178,255,.26), rgba(255,255,255,.07));
       box-shadow: var(--shadow2);
       transition: transform .18s ease, background .25s ease, border-color .25s ease;
       font-size: 13px;
       white-space: nowrap;
     }
-    .btn:hover{ transform: translateY(-1px); border-color: rgba(159,212,255,.35); background: linear-gradient(135deg, rgba(74,163,255,.28), rgba(255,255,255,.08)); }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(191,231,255,.40); background: linear-gradient(135deg, rgba(85,178,255,.32), rgba(255,255,255,.09)); }
 
     .hamburger{ display:none; }
 
@@ -131,11 +135,11 @@
 
     .heroCard{
       border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.16);
       background:
-        radial-gradient(900px 500px at 10% 0%, rgba(159,212,255,.18), transparent 55%),
-        radial-gradient(900px 600px at 100% 20%, rgba(74,163,255,.12), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+        radial-gradient(900px 500px at 10% 0%, rgba(191,231,255,.22), transparent 55%),
+        radial-gradient(900px 600px at 100% 20%, rgba(85,178,255,.16), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
       box-shadow: var(--shadow);
       position:relative;
       overflow:hidden;
@@ -146,8 +150,8 @@
       position:absolute;
       inset:-2px;
       background:
-        radial-gradient(600px 400px at 10% 30%, rgba(244,210,122,.10), transparent 55%),
-        radial-gradient(600px 400px at 90% 10%, rgba(159,212,255,.10), transparent 55%);
+        radial-gradient(600px 400px at 10% 30%, rgba(244,210,122,.12), transparent 55%),
+        radial-gradient(600px 400px at 90% 10%, rgba(191,231,255,.12), transparent 55%);
       pointer-events:none;
       opacity:.9;
     }
@@ -158,14 +162,14 @@
       gap:10px;
       padding: 7px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(244,210,122,.28);
-      background: rgba(244,210,122,.10);
+      border: 1px solid rgba(244,210,122,.30);
+      background: rgba(244,210,122,.12);
       color: rgba(255,255,255,.92);
       font-size: 12px;
       position:relative;
       z-index:1;
     }
-    .dot{ width:8px; height:8px; border-radius:999px; background: var(--gold); box-shadow: 0 0 0 4px rgba(244,210,122,.14); }
+    .dot{ width:8px; height:8px; border-radius:999px; background: var(--gold); box-shadow: 0 0 0 4px rgba(244,210,122,.16); }
 
     .heroTitle{
       font-family: var(--serif);
@@ -197,29 +201,29 @@
     .pill{
       padding: 9px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
       color: var(--muted);
       font-size: 12px;
     }
 
     .heroCtas{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 18px; position:relative; z-index:1; }
     .btnPrimary{
-      background: linear-gradient(135deg, rgba(74,163,255,.42), rgba(244,210,122,.16));
-      border-color: rgba(159,212,255,.35);
+      background: linear-gradient(135deg, rgba(85,178,255,.48), rgba(244,210,122,.18));
+      border-color: rgba(191,231,255,.40);
     }
 
     .sideCard{
       border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
     }
     .sideTop{
       padding: 22px 22px 16px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
+      border-bottom: 1px solid rgba(255,255,255,.12);
     }
     .sideTop h3{ margin:0; font-family: var(--serif); letter-spacing:.2px; }
     .sideTop p{ margin: 6px 0 0; color: var(--muted); font-size: 13px; }
@@ -232,10 +236,10 @@
     }
     .timeBox{
       border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.16);
       background:
-        radial-gradient(500px 220px at 20% 10%, rgba(159,212,255,.16), transparent 60%),
-        rgba(255,255,255,.05);
+        radial-gradient(500px 220px at 20% 10%, rgba(191,231,255,.20), transparent 60%),
+        rgba(255,255,255,.06);
       padding: 12px 10px;
       text-align:center;
     }
@@ -270,10 +274,10 @@
 
     .card{
       border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.14);
       background:
-        radial-gradient(700px 260px at 15% 10%, rgba(159,212,255,.12), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+        radial-gradient(700px 260px at 15% 10%, rgba(191,231,255,.14), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
       box-shadow: var(--shadow2);
       overflow:hidden;
       position:relative;
@@ -284,18 +288,18 @@
       inset:0;
       pointer-events:none;
       background: linear-gradient(180deg, transparent, rgba(0,0,0,.10));
-      opacity:.55;
+      opacity:.50;
     }
     .cardInner{ position:relative; z-index:1; padding: 18px 18px 16px; }
 
     .cardHeader{ display:flex; align-items:flex-start; justify-content:space-between; gap: 12px; margin-bottom: 10px; }
     .tag{
       font-size: 11px;
-      color: rgba(255,255,255,.85);
+      color: rgba(255,255,255,.88);
       padding: 7px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(159,212,255,.28);
-      background: rgba(159,212,255,.10);
+      border: 1px solid rgba(191,231,255,.30);
+      background: rgba(191,231,255,.12);
       white-space:nowrap;
     }
 
@@ -305,11 +309,11 @@
     /* ====== TILE LOOK (match HERO boxes) ====== */
     .tileCard{
       border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.18);
       background:
-        radial-gradient(900px 520px at 10% 0%, rgba(159,212,255,.18), transparent 55%),
-        radial-gradient(900px 620px at 100% 15%, rgba(74,163,255,.12), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.085), rgba(255,255,255,.035));
+        radial-gradient(900px 520px at 10% 0%, rgba(191,231,255,.22), transparent 55%),
+        radial-gradient(900px 620px at 100% 15%, rgba(85,178,255,.16), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.095), rgba(255,255,255,.045));
       box-shadow: var(--shadow);
     }
     .tileCard:after{ opacity:.35; }
@@ -318,8 +322,8 @@
       position:absolute;
       inset:-2px;
       background:
-        radial-gradient(620px 420px at 15% 35%, rgba(244,210,122,.10), transparent 55%),
-        radial-gradient(520px 380px at 85% 10%, rgba(159,212,255,.10), transparent 55%);
+        radial-gradient(620px 420px at 15% 35%, rgba(244,210,122,.12), transparent 55%),
+        radial-gradient(520px 380px at 85% 10%, rgba(191,231,255,.12), transparent 55%);
       opacity:.9;
       pointer-events:none;
     }
@@ -354,29 +358,27 @@
       position:relative;
       aspect-ratio: 16/10;
       background: rgba(255,255,255,.03);
-      border-bottom: 1px solid rgba(255,255,255,.10);
+      border-bottom: 1px solid rgba(255,255,255,.12);
 
-      /* Helps letterboxing look intentional when we "contain" images */
       display:flex;
       align-items:center;
       justify-content:center;
     }
-    /*  SHOW FULL IMAGE (NO CROP) */
     .profileMedia img{
       width:100%;
       height:100%;
-      object-fit:contain;          /* was cover */
+      object-fit:contain;
       display:block;
       filter: contrast(1.02) saturate(1.02);
-      background: rgba(0,0,0,.15); /* subtle frame behind letterboxing */
+      background: rgba(0,0,0,.12);
     }
     .profileMedia:after{
       content:"";
       position:absolute;
       inset:0;
       background:
-        radial-gradient(600px 280px at 20% 15%, rgba(159,212,255,.22), transparent 58%),
-        linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.35));
+        radial-gradient(600px 280px at 20% 15%, rgba(191,231,255,.26), transparent 58%),
+        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.30));
       pointer-events:none;
     }
     .profileCaption{
@@ -391,7 +393,7 @@
       gap: 10px;
     }
     .profileCaption h3{ margin:0; font-family: var(--serif); letter-spacing:.2px; }
-    .profileCaption small{ color: rgba(255,255,255,.80); }
+    .profileCaption small{ color: rgba(255,255,255,.82); }
 
     .bio{ color: var(--muted); font-size: 13.5px; }
     .bio p{ margin: 10px 0 0; }
@@ -411,10 +413,10 @@
       grid-template-columns: 110px 1fr;
       gap: 14px;
       padding: 12px 0;
-      border-bottom: 1px dashed rgba(255,255,255,.14);
+      border-bottom: 1px dashed rgba(255,255,255,.16);
     }
     .tlItem:last-child{ border-bottom:none; padding-bottom: 0; }
-    .tlItem .when{ color: rgba(244,210,122,.92); font-weight:700; font-size: 12px; letter-spacing:.3px; }
+    .tlItem .when{ color: rgba(244,210,122,.95); font-weight:700; font-size: 12px; letter-spacing:.3px; }
     .tlItem .what{ color: var(--muted); font-size: 13px; }
 
     /* ====== Book Launch ====== */
@@ -428,26 +430,22 @@
     }
     .bookCard{
       border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
       overflow:hidden;
-      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+      box-shadow: 0 16px 40px rgba(0,0,0,.26);
       transform-style: preserve-3d;
       transition: transform .25s ease;
       cursor: zoom-in;
-
-      /* keeps consistent tile size */
       aspect-ratio: 3 / 4;
     }
     .bookCard:hover{ transform: translateY(-3px) rotateX(2deg) rotateY(-3deg); }
-
-    /*  SHOW FULL IMAGE (NO CROP) */
     .bookCard img{
       width:100%;
       height:100%;
-      object-fit:contain;          /* was cover */
+      object-fit:contain;
       display:block;
-      background: rgba(0,0,0,.15);
+      background: rgba(0,0,0,.12);
     }
 
     .bookMeta{ padding: 18px 18px 16px; }
@@ -458,42 +456,38 @@
       margin-top: 12px;
       padding: 12px 14px;
       border-radius: 16px;
-      border: 1px solid rgba(244,210,122,.20);
-      background: rgba(244,210,122,.08);
-      color: rgba(255,255,255,.88);
+      border: 1px solid rgba(244,210,122,.22);
+      background: rgba(244,210,122,.10);
+      color: rgba(255,255,255,.90);
       font-size: 13px;
     }
-    .quote strong{ color: rgba(244,210,122,.95); }
+    .quote strong{ color: rgba(244,210,122,.98); }
 
     /* ====== Gallery ====== */
     .gallery{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .gItem{
       border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.18);
       background:
-        radial-gradient(700px 260px at 15% 10%, rgba(159,212,255,.14), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
+        radial-gradient(700px 260px at 15% 10%, rgba(191,231,255,.16), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
       overflow:hidden;
       box-shadow: var(--shadow);
       cursor: zoom-in;
       transition: transform .2s ease, border-color .2s ease;
       position:relative;
-
-      /*  consistent size without cropping */
       aspect-ratio: 4 / 5;
       display:flex;
       align-items:center;
       justify-content:center;
     }
-    .gItem:hover{ transform: translateY(-3px); border-color: rgba(159,212,255,.30); }
-
-    /*  SHOW FULL IMAGE (NO CROP) */
+    .gItem:hover{ transform: translateY(-3px); border-color: rgba(191,231,255,.34); }
     .gItem img{
       width:100%;
       height:100%;
-      object-fit:contain;          /* was cover */
+      object-fit:contain;
       display:block;
-      background: rgba(0,0,0,.15);
+      background: rgba(0,0,0,.12);
     }
 
     .gLabel{
@@ -501,18 +495,19 @@
       left: 10px; bottom: 10px;
       padding: 7px 10px;
       border-radius: 999px;
-      background: rgba(6,21,40,.55);
-      border: 1px solid rgba(255,255,255,.16);
+      /* ✅ lighter label background */
+      background: rgba(11,43,82,.48);
+      border: 1px solid rgba(255,255,255,.18);
       backdrop-filter: blur(10px);
       font-size: 12px;
-      color: rgba(255,255,255,.88);
+      color: rgba(255,255,255,.90);
     }
 
     /* ====== Modal (Lightbox) ====== */
     .modal{
       position:fixed;
       inset:0;
-      background: rgba(0,0,0,.62);
+      background: rgba(0,0,0,.58);
       display:none;
       align-items:center;
       justify-content:center;
@@ -523,29 +518,28 @@
     .modalBox{
       width:min(980px, 100%);
       border-radius: 22px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(10,26,46,.62);
+      border: 1px solid rgba(255,255,255,.20);
+      /* ✅ lighter modal glass */
+      background: rgba(11,43,82,.56);
       backdrop-filter: blur(16px);
-      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+      box-shadow: 0 30px 90px rgba(0,0,0,.52);
       overflow:hidden;
     }
-    .modalTop{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.12); }
+    .modalTop{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.14); }
     .modalTop strong{ font-family: var(--serif); letter-spacing:.2px; }
     .close{
       appearance:none;
       border:none;
-      background: rgba(255,255,255,.08);
+      background: rgba(255,255,255,.10);
       color: var(--ink);
       border-radius: 999px;
       padding: 8px 12px;
       cursor:pointer;
-      border: 1px solid rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.16);
       transition: .2s ease;
     }
-    .close:hover{ background: rgba(255,255,255,.12); }
-    .modalImg{ background: rgba(0,0,0,.25); }
-
-    /*  Ensure full image in modal too */
+    .close:hover{ background: rgba(255,255,255,.14); }
+    .modalImg{ background: rgba(0,0,0,.22); }
     .modalImg img{
       width:100%;
       height:auto;
@@ -556,7 +550,7 @@
     /* ====== Footer ====== */
     footer{
       padding: 34px 0 44px;
-      border-top: 1px solid rgba(255,255,255,.10);
+      border-top: 1px solid rgba(255,255,255,.12);
       color: var(--muted2);
       font-size: 13px;
     }
@@ -569,24 +563,15 @@
     }
 
     /* ====== Reveal Animations ====== */
-.reveal{
-  opacity:0;
-  transform: translateY(10px);
-  transition: .6s ease;
-}
-.reveal.show{
-  opacity:1;
-  transform: translateY(0);
-}
+    .reveal{ opacity:0; transform: translateY(10px); transition: .6s ease; }
+    .reveal.show{ opacity:1; transform: translateY(0); }
 
-/* ====== Bulletproof stacking so overlays never hide content ====== */
-.tileCard{ position: relative; }
-.tileCard:before,
-.tileCard:after{ z-index: 0; }
-.tileCard .cardInner{ position: relative; z-index: 2; }
-
-/* Make sure the book cover sits above decorative overlays */
-.bookCard{ position: relative; z-index: 3; }
+    /* ====== Bulletproof stacking so overlays never hide content ====== */
+    .tileCard{ position: relative; }
+    .tileCard:before,
+    .tileCard:after{ z-index: 0; }
+    .tileCard .cardInner{ position: relative; z-index: 2; }
+    .bookCard{ position: relative; z-index: 3; }
 
     /* ====== Responsive ====== */
     @media (max-width: 980px){
@@ -606,12 +591,12 @@
         display:block;
         padding: 12px 10px;
         border-radius: 14px;
-        border: 1px solid rgba(255,255,255,.10);
-        background: rgba(255,255,255,.04);
+        border: 1px solid rgba(255,255,255,.12);
+        background: rgba(255,255,255,.05);
         margin-top: 10px;
         color: var(--muted);
       }
-      .navMenu a:hover{ color: var(--ink); border-color: rgba(159,212,255,.25); }
+      .navMenu a:hover{ color: var(--ink); border-color: rgba(191,231,255,.28); }
     }
 
     @media (max-width: 520px){
@@ -716,10 +701,9 @@
       <div class="grid2">
         <article class="card tileCard profileCard reveal">
           <div class="profileMedia">
-            <!-- ✅ Celebrant Image (RAW GitHub link) -->
             <img
               alt="Pastor Omoniyi Oluwagbemiga Ayeni"
-              src="https://raw.githubusercontent.com/aadez/aadez/main/239366%20(1).jpg"
+              src="https://raw.githubusercontent.com/aadez/aadez/main/IMG-20260126-WA0008.jpg"
             />
             <div class="profileCaption">
               <div>
@@ -888,42 +872,42 @@
       </div>
 
       <div class="bookWrap">
-     <article class="card tileCard">
-  <div class="cardInner">
-    <div class="cardHeader">
-      <span class="tag">Tap to Zoom</span>
-    </div>
+        <article class="card tileCard">
+          <div class="cardInner">
+            <div class="cardHeader">
+              <span class="tag">Tap to Zoom</span>
+            </div>
 
-    <div class="mockup">
-      <div
-        class="bookCard"
-        data-title="New Book"
-        data-img="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg"
-      >
-        <img
-          alt="New Book Cover"
-          src="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg"
-          loading="lazy"
-          decoding="async"
-          referrerpolicy="no-referrer"
-          onerror="this.alt='Image failed to load (check URL/filename)'; this.style.display='none'; this.closest('.bookCard').style.display='grid'; this.closest('.bookCard').style.placeItems='center'; this.closest('.bookCard').innerHTML+='<div style=&quot;padding:12px;text-align:center;color:rgba(255,255,255,.85);font-size:12px;&quot;>Image failed to load.<br/>Check the GitHub raw URL.</div>';"
-        />
-      </div>
+            <div class="mockup">
+              <div
+                class="bookCard"
+                data-title="New Book"
+                data-img="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg"
+              >
+                <img
+                  alt="New Book Cover"
+                  src="https://raw.githubusercontent.com/aadez/aadez/main/new%20book.jpg"
+                  loading="lazy"
+                  decoding="async"
+                  referrerpolicy="no-referrer"
+                  onerror="this.alt='Image failed to load (check URL/filename)'; this.style.display='none'; this.closest('.bookCard').style.display='grid'; this.closest('.bookCard').style.placeItems='center'; this.closest('.bookCard').innerHTML+='<div style=&quot;padding:12px;text-align:center;color:rgba(255,255,255,.85);font-size:12px;&quot;>Image failed to load.<br/>Check the GitHub raw URL.</div>';"
+                />
+              </div>
 
-      <div class="bookMeta">
-        <h3>About the Book</h3>
-        <p>
-          God’s power for miracles, signs, and wonders still exists today just as in the Bible days. Jesus Christ,
-          the power of God, is the same yesterday, today, and forever.
-        </p>
-        <p>
-          <b>POWER AS OF OLD</b> invites readers to encounter God’s power in a fresh dimension, learn how to engage it for
-          personal wellbeing, and experience deliverance from bondage through faith in Christ.
-        </p>
-      </div>
-    </div>
-  </div>
-</article>
+              <div class="bookMeta">
+                <h3>About the Book</h3>
+                <p>
+                  God’s power for miracles, signs, and wonders still exists today just as in the Bible days. Jesus Christ,
+                  the power of God, is the same yesterday, today, and forever.
+                </p>
+                <p>
+                  <b>POWER AS OF OLD</b> invites readers to encounter God’s power in a fresh dimension, learn how to engage it for
+                  personal wellbeing, and experience deliverance from bondage through faith in Christ.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
 
         <article class="card tileCard">
           <div class="cardInner">
